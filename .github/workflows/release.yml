@@ -1,0 +1,54 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-latest
+            args: --bundles dmg --target aarch64-apple-darwin
+          - os: macos-15-intel
+            args: --bundles dmg --target x86_64-apple-darwin
+          - os: windows-latest
+            args: --bundles nsis
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.os == 'macos-latest' && 'aarch64-apple-darwin' || matrix.os == 'macos-15-intel' && 'x86_64-apple-darwin' || '' }}
+
+      - uses: swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+
+      - name: Tauri CLI
+        run: npm install -g @tauri-apps/cli@^2
+
+      - name: Build and publish to release
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: ${{ github.ref_name }}
+          releaseName: 'Nami ${{ github.ref_name }}'
+          releaseBody: 'Установка: скачайте файл для своей системы. Сборки не подписаны: macOS — ПКМ по приложению → «Открыть»; если macOS пишет, что приложение «повреждено», выполните в Терминале: xattr -cr "/Applications/Nami.app"; Windows SmartScreen — «Подробнее» → «Выполнить в любом случае».'
+          releaseDraft: false
+          prerelease: false
+          tauriScript: tauri
+          args: ${{ matrix.args }}

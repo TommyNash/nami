@@ -1,0 +1,345 @@
+/* Настройки */
+/* —— Настройки —— */
+.settings-page {
+  max-width: 720px;
+  width: 100%;
+  margin: 0 auto;
+  padding-bottom: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.settings-hero {
+  margin-bottom: 0;
+}
+
+.settings-title {
+  color: var(--text);
+  font-weight: 600;
+  font-size: 30px;
+  letter-spacing: -0.03em;
+}
+
+.settings-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.settings-section-head h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+.settings-section-head p {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.settings-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px 18px;
+}
+
+.settings-stack {
+  padding: 4px 0;
+}
+
+.settings-stack > .settings-row,
+.settings-stack > .settings-field,
+.settings-stack > .settings-row-btn,
+.settings-dev > .settings-field,
+.settings-dev > .settings-row-btn {
+  padding: 16px 20px;
+}
+
+.settings-stack > .settings-row + .settings-row,
+.settings-stack > .settings-field + .settings-field,
+.settings-stack > .settings-field + .settings-row-btn,
+.settings-stack > .settings-row + .settings-journal,
+.settings-stack > .settings-row + .settings-dev,
+.settings-stack > .settings-pack-status,
+.settings-dev > .settings-field + .settings-field,
+.settings-dev > .settings-field + .settings-row-btn {
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.settings-stack > .settings-pack-status {
+  margin: 0;
+  padding: 12px 20px;
+}
+
+.settings-dev {
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.012);
+}
+
+.settings-dev[hidden] {
+  display: none;
+}
+
+.settings-conn {
+  position: relative;
+  overflow: hidden;
+  padding: 18px 20px;
+}
+
+.settings-conn.is-ok {
+  background: linear-gradient(90deg, rgba(61, 214, 140, 0.12), var(--surface) 42%);
+  border-color: color-mix(in srgb, var(--accent) 28%, var(--border));
+}
+
+
+.settings-conn.is-off::before {
+  background: var(--warn);
+}
+
+.settings-conn.is-wait::before {
+  background: #5a5a5a;
+}
+
+.settings-conn-title {
+  font-size: 15px;
+  font-weight: 650;
+  color: var(--text);
+}
+
+.settings-conn.is-ok .settings-conn-title {
+  color: var(--ok-soft);
+}
+
+.settings-conn-sub {
+  margin-top: 4px;
+  font-size: 12px;
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.settings-row-wrap {
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.settings-row-copy {
+  min-width: 0;
+  flex: 1;
+}
+
+.settings-row-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.settings-row-sub {
+  margin-top: 2px;
+  font-size: 12px;
+}
+
+.settings-row-btn {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 0;
+}
+
+.settings-row-btn:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.settings-row-btn.is-open .settings-chevron {
+  transform: rotate(90deg);
+}
+
+.settings-chevron {
+  color: var(--muted);
+  font-size: 16px;
+  transition: transform 0.18s ease;
+}
+
+.settings-checks {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 14px;
+  padding-top: 4px;
+}
+
+.settings-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.settings-check .ph {
+  font-size: 18px;
+  color: #4a4a4a;
+}
+
+.settings-check.is-done {
+  color: var(--text);
+}
+
+.settings-check.is-done .ph {
+  color: var(--accent);
+}
+
+.settings-card-foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.settings-actions {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 8px;
+}
+
+.settings-link {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  color: var(--accent);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.settings-link:hover {
+  color: var(--ok-soft);
+}
+
+.settings-stats-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.settings-stat-chip {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  padding: 14px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+
+.settings-stat-chip b {
+  font-size: 20px;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+}
+
+.settings-stat-chip span {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.settings-stat-chip em {
+  font-style: normal;
+  font-size: 11px;
+}
+
+@media (max-width: 720px) {
+  .settings-stats-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.settings-toggle {
+  padding: 0;
+  flex: 0 0 auto;
+}
+
+.settings-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.settings-code {
+  background: #121212;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  font-size: 13px;
+  color: var(--text);
+  word-break: break-all;
+}
+
+.settings-token-row {
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
+}
+
+.settings-token-row .settings-code {
+  flex: 1;
+  min-width: 0;
+}
+
+.settings-token-row .btn {
+  align-self: center;
+  white-space: nowrap;
+}
+
+.settings-token {
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.settings-pack-status {
+  margin: 12px 0 0;
+  font-size: 12px;
+}
+
+.settings-journal {
+  padding: 0 0 8px;
+}
+
+.settings-journal-table {
+  width: 100%;
+  font-size: 12px;
+}
+
+.settings-journal-table th,
+.settings-journal-table td {
+  padding: 8px 14px;
+}
+
+.settings-card .seg {
+  flex: 0 0 auto;
+}
+
+.settings-card .btn {
+  white-space: nowrap;
+}
+

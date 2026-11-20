@@ -1,0 +1,7 @@
+./src-tauri/src/analytics/memo.rs
+./src-tauri/src/analytics/portfolio.rs
+./src-tauri/src/analytics/game.rs
+./src-tauri/src/analytics/tax.rs
+./src-tauri/src/normalize.rs
+./src-tauri/src/commands.rs
+./src-tauri/src/demo.rs

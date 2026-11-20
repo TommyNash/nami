@@ -1,0 +1,273 @@
+/* Скелетоны и загрузка */
+/* Skeletons */
+@keyframes sk-shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+.sk {
+  border-radius: 8px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.04) 0%,
+    rgba(255, 255, 255, 0.09) 45%,
+    rgba(255, 255, 255, 0.04) 90%
+  );
+  background-size: 200% 100%;
+  animation: sk-shimmer 1.15s ease-in-out infinite;
+}
+
+.sk-page .home-hero {
+  margin-bottom: 18px;
+}
+
+.sk-title {
+  width: min(280px, 60%);
+  height: 28px;
+  margin-bottom: 10px;
+}
+
+.sk-line {
+  width: min(520px, 85%);
+  height: 14px;
+}
+
+.sk-card {
+  min-height: 96px;
+}
+
+.sk-label {
+  width: 42%;
+  height: 10px;
+  margin-bottom: 14px;
+}
+
+.sk-value {
+  width: 58%;
+  height: 26px;
+  margin-bottom: 10px;
+}
+
+.sk-sub {
+  width: 70%;
+  height: 10px;
+}
+
+.sk-heading {
+  width: 140px;
+  height: 16px;
+}
+
+.sk-filters {
+  width: 220px;
+  height: 28px;
+  border-radius: 999px;
+}
+
+.sk-heatmap {
+  height: var(--home-map-h, 400px);
+  min-height: var(--home-map-h, 400px);
+  max-height: var(--home-map-h, 400px);
+  border-radius: 10px;
+}
+
+.sk-chart {
+  height: 220px;
+  border-radius: 10px;
+}
+
+.sk-table {
+  display: grid;
+  gap: 8px;
+  padding: 14px 16px !important;
+}
+
+.sk-row {
+  height: 44px;
+  border-radius: 10px;
+}
+
+.sk-kicker {
+  width: 84px;
+  height: 10px;
+  margin-bottom: 10px;
+}
+
+.sk-note {
+  width: min(420px, 70%);
+  height: 12px;
+  margin: 12px 0;
+}
+
+.sk-tab {
+  width: 76px;
+  height: 30px;
+  border-radius: 999px;
+}
+
+.sk-mini-label {
+  width: 52px;
+  height: 8px;
+  margin-bottom: 6px;
+}
+
+.sk-mini-value {
+  width: 64px;
+  height: 15px;
+}
+
+/* Числа, которые «набегают» */
+[data-countup] {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Смена периода: страница не пересобирается. Значения в KPI-карточках
+   остаются на месте и потом «набегают» к новым — без скелетона и без моргания.
+   Блоки с данными (карта, таблица, график) показывают скелетон на месте. */
+
+/* Пока грузятся новые данные, блоки не исчезают: на месте старых значений
+   показывается скелетон тех же размеров, чтобы страница не «прыгала» */
+#pageRoot.is-loading .heatmap {
+  position: relative;
+}
+
+#pageRoot.is-loading .heatmap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+  border-radius: inherit;
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.04) 0%,
+    rgba(255, 255, 255, 0.09) 45%,
+    rgba(255, 255, 255, 0.04) 90%
+  );
+  background-size: 200% 100%;
+  animation: sk-shimmer 1.15s ease-in-out infinite;
+}
+
+#pageRoot.is-loading .heatmap-cell {
+  opacity: 0.35;
+  transition: opacity 0.18s ease;
+}
+
+#pageRoot.is-loading .games-table tbody,
+#pageRoot.is-loading .earn-days-body {
+  opacity: 0.35;
+  transition: opacity 0.18s ease;
+}
+
+/* Строка, скрытая фильтром, не должна занимать место */
+.games-table tr[hidden] {
+  display: none;
+}
+
+/* Блоки не «влетают»: никаких transform-анимаций на карточках */
+.kpi-card,
+.grid-cards > .card,
+.ws-kpis > .kpi-mini {
+  animation: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-thumb {
+    transition: none;
+  }
+
+  .seg-btn,
+  .seg-month,
+  .dock-btn,
+  .toggle,
+  .toggle-track,
+  .toggle-knob {
+    transition: none;
+  }
+
+  .sk {
+    animation: none;
+  }
+
+  #pageRoot.is-loading .heatmap::after {
+    animation: none;
+    background-image: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.06),
+      rgba(255, 255, 255, 0.06)
+    );
+  }
+
+  .chart-bar-fill,
+  .chart-compare-line,
+  .chart-compare-dot,
+  .chart-line-path,
+  .heatmap-cell,
+  .heat-popover,
+  .chart-tooltip {
+    transition: none !important;
+  }
+
+  .chart-bar-fill,
+  .heatmap-cell,
+  .chart-compare-dot {
+    opacity: 1;
+    transform: none;
+  }
+
+  .chart-compare-line,
+  .chart-line-path {
+    stroke-dashoffset: 0 !important;
+  }
+}
+
+.alert-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.alert-item {
+  display: grid;
+  gap: 2px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.alert-item.warn {
+  border-color: color-mix(in srgb, var(--warn) 40%, var(--line));
+}
+
+.alert-item span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.table-head-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.table-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.search.compact {
+  max-width: 180px;
+  padding: 6px 10px;
+}
+

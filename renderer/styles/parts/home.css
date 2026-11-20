@@ -1,0 +1,281 @@
+/* Главная: приветствие и KPI */
+.home-hero {
+  margin-bottom: 22px;
+  max-width: 920px;
+}
+
+.home-greet {
+  margin: 0 0 10px;
+  font-size: 28px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  color: var(--muted);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 12px;
+}
+
+.account-chip-wrap {
+  position: relative;
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+.account-chip {
+  margin: 0;
+  padding: 0 var(--capsule-pad-x) 0 5px;
+  gap: 8px;
+  cursor: default;
+  letter-spacing: -0.01em;
+}
+
+.account-chip.is-switchable {
+  cursor: pointer;
+}
+
+.account-chip:disabled {
+  opacity: 1;
+  cursor: default;
+  filter: none;
+}
+
+.account-avatar,
+.account-avatar-img {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+
+.account-avatar {
+  display: inline-grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--accent) 18%, var(--surface));
+  color: var(--text);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.account-avatar-img {
+  object-fit: cover;
+  background: var(--surface);
+}
+
+.account-name {
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.account-chip-caret {
+  display: inline-flex;
+  opacity: 0.55;
+}
+
+.account-pop {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 40;
+  min-width: min(280px, 72vw);
+  padding: 6px;
+  border: 1px solid color-mix(in srgb, var(--border) 90%, transparent);
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: 0 12px 32px color-mix(in srgb, #000 28%, transparent);
+}
+
+.account-pop[hidden] {
+  display: none;
+}
+
+.account-pop-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin: 0;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+}
+
+.account-pop-item:hover,
+.account-pop-item.is-active {
+  background: color-mix(in srgb, var(--text) 7%, transparent);
+}
+
+.account-pop-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.account-pop-title {
+  font-size: 13px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.account-pop-login {
+  font-size: 11px;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.home-lead {
+  margin: 0;
+  max-width: 860px;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.home-lead strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.home-attn {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.kpi-card {
+  padding: 18px 20px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  min-height: 118px;
+  /* Карточка — колонка: свечи по дням прижимаются к низу у всех карточек */
+  display: flex;
+  flex-direction: column;
+}
+
+.kpi-card-earn {
+  background: radial-gradient(120% 150% at 0% 0%, #1b5e3f 0%, #171717 62%);
+}
+
+.kpi-label {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.kpi-value {
+  margin-top: 8px;
+  font-size: 34px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.kpi-sub {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.panel-chart {
+  background: radial-gradient(110% 120% at 100% 0%, #14412b 0%, #171717 55%);
+}
+
+.panel-earn-days {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.earn-days-head {
+  border-bottom: 0;
+  padding: 12px 14px 0;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.earn-days-head h2 {
+  margin: 0;
+  font-size: 14px;
+}
+
+.earn-days-sub {
+  margin-top: 2px;
+  font-size: 12px;
+}
+
+.earn-days-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  margin-top: 6px;
+}
+
+.earn-leg-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.earn-leg-item i {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  display: inline-block;
+}
+
+.earn-manual-btn {
+  appearance: none;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  height: auto;
+  padding: 2px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  line-height: 1;
+  cursor: pointer;
+  margin-top: 0;
+}
+
+.earn-manual-btn .ph {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.earn-manual-btn:hover {
+  color: var(--text);
+  background: transparent;
+}
+

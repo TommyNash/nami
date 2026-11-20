@@ -1,0 +1,159 @@
+/* Токены, сброс, переход между разделами, оболочка */
+:root {
+  /* Дизайн-токены интерфейса */
+  --bg: #0e0e0e;
+  --surface: #171717;
+  --surface-alt: #131313;
+  --bg-elev: var(--surface);
+  --bg-soft: #1b1b1b;
+  --bg-card: var(--surface);
+  --bg-pill: var(--surface);
+  --border: #2a2a2a;
+  --line: var(--border);
+  --line-strong: #2a2a2a;
+  --text: #ededed;
+  --muted: #a0a0a0;
+  --accent: #3dd68c;
+  --accent-mid: #1e7a50;
+  --accent-dim: var(--accent-mid);
+  --accent-deep: #14573a;
+  --accent-tint: #223229;
+  --danger: #ffb4a6;
+  --danger-bg: #3a1f1c;
+  --danger-dot: #f0705d;
+  --accent-down: var(--danger-bg);
+  --accent-down-text: var(--danger);
+  --warn: #e3a93a;
+  --ok: var(--accent);
+  --ok-soft: #6fd3a0;
+  --success-text: #6fd3a0;
+  --success-bg: #14301f;
+  --neutral-chip: #2a2a2a;
+  --seg-active: #ededed;
+  --seg-active-text: #0e0e0e;
+  --inverse-bg: #ededed;
+  --inverse-text: #0e0e0e;
+  --chart-2: #8a8a8a;
+  --chart-3: #3a3a3a;
+  --shadow: 0 10px 28px rgba(0, 0, 0, 0.5);
+  /* Continuous corners: radius tokens + JS squircle (smoothing 60%) */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-2xl: 32px;
+  --radius: var(--radius-lg);
+  --radius-chip: 6px;
+  --corner-smoothing: 0.6;
+  --font: "Onest", "Manrope", "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", "SF Mono", Menlo, monospace;
+  --dock-h: 88px;
+  --top-h: 64px;
+  --titlebar-pad-left: 28px;
+  --page-max: 1440px;
+  --page-pad: 36px;
+  /* Ровная заливка. Цвет продублирован градиентом: обычный rgba
+     в первом слое background браузер отбрасывает, и капсула становится прозрачной. */
+  --capsule-fill: linear-gradient(rgba(32, 32, 32, 0.96), rgba(32, 32, 32, 0.96));
+  /* Геометрия всех капсул-кнопок: док-кнопки, легенда графика, скачивание. */
+  --capsule-h: 36px;
+  --capsule-pad: 6px;
+  /* Оболочка дока: кнопки внутри + паддинг и рамка с двух сторон. */
+  --capsule-shell: calc(var(--capsule-h) + (var(--capsule-pad) + 1px) * 2);
+  --capsule-pad-x: 20px;
+  --capsule-radius: 999px;
+  --capsule-gap: 8px;
+  --capsule-font: 13px;
+  --capsule-weight: 600;
+  /* Ровный свет почти на всю длину. На широких капсулах спад с 7%,
+     на коротких кнопках проценты сжимаются в несколько пикселей
+     и край обрывается — поэтому затухание не короче радиуса скругления. */
+  --capsule-rim: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.45) 0,
+    rgba(255, 255, 255, 0.08) 6px,
+    rgba(255, 255, 255, 0.16) max(18px, 3%),
+    rgba(255, 255, 255, 0.2) min(42%, max(32px, 7%)),
+    rgba(255, 255, 255, 0.2) max(58%, min(calc(100% - 32px), 93%)),
+    rgba(255, 255, 255, 0.16) min(calc(100% - 18px), 97%),
+    rgba(255, 255, 255, 0.08) calc(100% - 6px),
+    rgba(0, 0, 0, 0.45) 100%
+  );
+  --capsule-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
+  /* Скользящий thumb активного сегмента (как FkViewToggle, но glass) */
+  --capsule-thumb-bg: rgba(255, 255, 255, 0.12);
+  --capsule-thumb-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.04);
+  --capsule-thumb-text: var(--text);
+}
+
+/* macOS Overlay titlebar: header = chrome окна, слева traffic lights */
+html.tauri-macos {
+  --titlebar-pad-left: 92px;
+  --top-h: 60px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font: 14px/1.45 var(--font);
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+/* Смена раздела: cross-fade контента. Шапка и док вынесены своим
+   view-transition-name и не мигают вместе со страницей. */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root) {
+  animation: fa-vt-fade-out 0.28s cubic-bezier(0.32, 0.72, 0, 1) both;
+}
+
+::view-transition-new(root) {
+  animation: fa-vt-fade-in 0.28s cubic-bezier(0.32, 0.72, 0, 1) both;
+}
+
+@keyframes fa-vt-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fa-vt-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+}
+
+.app-shell {
+  display: grid;
+  grid-template-rows: 1fr;
+  height: 100%;
+  min-height: 100vh;
+  background: var(--bg);
+  position: relative;
+}

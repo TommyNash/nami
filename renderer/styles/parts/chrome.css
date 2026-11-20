@@ -1,0 +1,326 @@
+/* Шапка, док, свечи KPI */
+
+.topchrome {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  view-transition-name: fa-chrome;
+  height: var(--top-h);
+  padding: 0;
+  box-sizing: border-box;
+  border: 0;
+  background: transparent;
+  pointer-events: none;
+}
+
+/* Зона перетаскивания окна: пустые места шапки и поля по краям
+   (data-tauri-drag-region обрабатывает Tauri, клики по кнопкам он игнорирует) */
+.topchrome-drag {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: auto;
+}
+
+/* В Electron окно с нативной рамкой — лишний слой не нужен */
+html:not(.tauri-app) .topchrome-drag {
+  display: none;
+}
+
+.topchrome::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: calc(var(--top-h) + 48px);
+  pointer-events: none;
+  z-index: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(14, 14, 14, 0.98) 0%,
+    rgba(14, 14, 14, 0.9) 40%,
+    rgba(14, 14, 14, 0.42) 72%,
+    rgba(14, 14, 14, 0) 100%
+  );
+}
+
+.topchrome-inner {
+  position: relative;
+  z-index: 1;
+  pointer-events: auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+  height: 100%;
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: 0 var(--page-pad) 0 max(var(--page-pad), var(--titlebar-pad-left));
+  box-sizing: border-box;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* В попапе статуса текст должен выделяться как обычно */
+.status-pop {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+.chrome-back {
+  /* Всегда в гриде шапки — иначе при display:none период уезжает влево. */
+  display: flex;
+  align-items: center;
+  justify-self: start;
+  min-width: 112px;
+  min-height: 36px;
+  margin-left: 4px;
+}
+
+.period-mount {
+  min-width: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chrome-actions {
+  display: flex;
+  align-items: center;
+  justify-self: end;
+  justify-content: flex-end;
+  min-width: 112px;
+  min-height: 36px;
+  gap: 8px;
+}
+
+.chrome-actions[aria-hidden='true']:empty {
+  pointer-events: none;
+}
+
+.chrome-tax-save:disabled {
+  opacity: 0.55;
+  cursor: default;
+  filter: none;
+}
+
+.tax-input.is-dirty {
+  border-color: rgba(61, 214, 140, 0.55);
+}
+
+.topchrome-right {
+  display: none;
+}
+
+.dock-bar {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* Кнопка статуса в правом углу, низ и высота совпадают с доком. */
+.data-status-host {
+  position: absolute;
+  right: 16px;
+  bottom: 0;
+  z-index: 2;
+  pointer-events: none;
+  view-transition-name: fa-status;
+}
+
+.data-status-host > * {
+  pointer-events: auto;
+}
+
+.dock-wrap {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 14px;
+  z-index: 40;
+  view-transition-name: fa-dock;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px;
+  background: transparent;
+  pointer-events: none;
+}
+
+.dock-sponsor {
+  pointer-events: auto;
+  margin: 0;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+  text-align: center;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.55);
+}
+
+.dock-sponsor a {
+  color: var(--text);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.dock-sponsor a:hover {
+  color: var(--accent);
+}
+
+/* Дневные свечи в KPI-карточках: состояния и внешний тултип.
+   Внутренний ::after не подходит — карточки обрезаны squircle clip-path. */
+
+.kpi-days {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 30px;
+  margin-top: auto;
+  padding-top: 8px;
+}
+
+.kpi-day {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 2px;
+  height: var(--h, 40%);
+  min-height: 6px;
+  border-radius: 2px;
+  background: var(--accent);
+  opacity: 0.9;
+  cursor: default;
+  transition: opacity 0.15s ease, height 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.kpi-day.is-partial {
+  background: var(--warn);
+}
+
+/* День запрошен, но Яндекс ещё не посчитал доход (earn = null),
+   либо значение известно только в сумме периода. */
+.kpi-day.is-est {
+  background: rgba(111, 227, 168, 0.42);
+  box-shadow: inset 0 0 0 1px rgba(111, 227, 168, 0.35);
+}
+
+.kpi-day.is-none {
+  height: 12px !important;
+  background: rgba(255, 255, 255, 0.14);
+  opacity: 1;
+  border-radius: 2px;
+}
+
+/* Полоска-подложка: даже у пустого дня видна позиция в периоде */
+.kpi-day.is-none::before {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 100%;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.kpi-card-earn .kpi-day.is-full {
+  background: #6fe3a8;
+}
+
+.kpi-day:hover {
+  opacity: 1;
+}
+
+/* Выносной тултип: живёт в body, поэтому не обрезается карточкой */
+.days-tip {
+  position: fixed;
+  z-index: 90;
+  max-width: 260px;
+  padding: 6px 9px;
+  border-radius: 8px;
+  background: #0e0e0e;
+  border: 1px solid var(--border);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.6);
+  color: var(--text);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.3;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.12s ease, transform 0.12s ease;
+}
+
+.days-tip.is-open {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.dock {
+  pointer-events: auto;
+  justify-content: center;
+}
+
+.dock-btn {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 8px 14px 8px 10px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.32s cubic-bezier(0.32, 0.72, 0, 1),
+    transform 0.32s cubic-bezier(0.22, 1.15, 0.36, 1);
+  clip-path: none !important;
+}
+
+.dock-btn:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.dock-btn.active,
+.dock-btn.is-active {
+  color: var(--capsule-thumb-text);
+  background: transparent;
+  font-weight: 600;
+}
+
+/* Подложка уже закрашена — подсветка при наведении не нужна */
+.dock-btn.active:hover,
+.dock-btn.is-active:hover {
+  background: transparent;
+}
+
+.dock-btn .ph {
+  font-size: 18px;
+  line-height: 1;
+  color: inherit;
+}
+
+.dock-label {
+  font-size: 13px;
+  padding-right: 2px;
+}
+
+.dock-btn.active .dock-label,
+.dock-btn.active .ph,
+.dock-btn.is-active .dock-label,
+.dock-btn.is-active .ph {
+  color: var(--capsule-thumb-text);
+}
+

@@ -1,0 +1,36 @@
+[package]
+name = "nami"
+version = "0.2.0"
+description = "Nami — desktop analytics for Yandex Games console"
+authors = ["Founders Games"]
+edition = "2021"
+
+[[bin]]
+name = "Nami"
+path = "src/main.rs"
+
+[lib]
+name = "nami_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-shell = "2"
+tauri-plugin-dialog = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+rusqlite = { version = "0.32", features = ["bundled"] }
+tiny_http = "0.12"
+chrono = { version = "0.4", default-features = false, features = ["clock", "std"] }
+uuid = { version = "1", features = ["v4"] }
+thiserror = "1"
+parking_lot = "0.12"
+hex = "0.4"
+rand = "0.8"
+open = "5"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt"] }
+fa-core = { path = "../crates/fa-core" }

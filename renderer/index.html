@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self' ipc: http://ipc.localhost; style-src 'self' 'unsafe-inline'; font-src 'self' data:; script-src 'self' 'unsafe-inline'; img-src 'self' data: https://avatars.mds.yandex.net https://*.yandex.net; connect-src 'self' ipc: http://ipc.localhost;"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Nami</title>
+    <script>
+      if (sessionStorage.getItem('nami.skipSplash') === '1') {
+        document.documentElement.classList.add('no-splash');
+      }
+    </script>
+    <link rel="stylesheet" href="vendor/fonts/fonts.css" />
+    <link rel="stylesheet" href="vendor/phosphor/regular/style.css" />
+    <link rel="stylesheet" href="styles/parts/base.css" />
+    <link rel="stylesheet" href="styles/parts/chrome.css" />
+    <link rel="stylesheet" href="styles/parts/nav.css" />
+    <link rel="stylesheet" href="styles/parts/charts.css" />
+    <link rel="stylesheet" href="styles/parts/controls.css" />
+    <link rel="stylesheet" href="styles/parts/status.css" />
+    <link rel="stylesheet" href="styles/parts/ui.css" />
+    <link rel="stylesheet" href="styles/parts/compare.css" />
+    <link rel="stylesheet" href="styles/parts/home.css" />
+    <link rel="stylesheet" href="styles/parts/tax.css" />
+    <link rel="stylesheet" href="styles/parts/games.css" />
+    <link rel="stylesheet" href="styles/parts/skeleton.css" />
+    <link rel="stylesheet" href="styles/parts/workspace.css" />
+    <link rel="stylesheet" href="styles/parts/settings.css" />
+    <link rel="stylesheet" href="styles/parts/collect.css" />
+    <link rel="stylesheet" href="styles/parts/onboarding.css" />
+    <link rel="stylesheet" href="styles/parts/splash.css" />
+    <link rel="stylesheet" href="styles/parts/lang-picker.css" />
+  </head>
+  <body>
+    <div id="splash" class="splash" aria-hidden="true">
+      <div class="splash-lockup">
+        <img class="splash-logo" src="assets/logo.png" alt="" draggable="false" />
+        <span class="splash-name">Nami</span>
+      </div>
+    </div>
+    <div class="app-shell">
+      <header class="topchrome">
+        <div class="topchrome-drag" data-tauri-drag-region aria-hidden="true"></div>
+        <div class="topchrome-inner" data-tauri-drag-region="deep">
+          <div id="chromeBack" class="chrome-back" aria-hidden="true"></div>
+          <div id="periodMount" class="period-mount"></div>
+          <div id="chromeActions" class="chrome-actions" aria-hidden="true"></div>
+        </div>
+      </header>
+
+      <main class="main">
+        <section id="pageRoot" class="page"></section>
+      </main>
+
+      <div class="dock-wrap">
+        <p class="dock-sponsor">
+          <span data-i18n="chrome.sponsored"></span>
+          <a
+            href="https://kit.founders-universe.com/"
+            id="dockSponsorLink"
+            data-external-url="https://kit.founders-universe.com/"
+            >Founders Kit</a
+          >
+        </p>
+        <div class="dock-bar">
+        <nav class="dock" id="nav" data-thumb-key="dock" data-i18n-aria-label="nav.label">
+          <button data-page="games" class="dock-btn active" type="button" data-i18n-title="nav.games">
+            <i class="ph ph-game-controller" aria-hidden="true"></i>
+            <span class="dock-label" data-i18n="nav.games"></span>
+          </button>
+          <button data-page="compare" class="dock-btn" type="button" data-i18n-title="nav.compare">
+            <i class="ph ph-arrows-left-right" aria-hidden="true"></i>
+            <span class="dock-label" data-i18n="nav.compare"></span>
+          </button>
+          <button data-page="settings" class="dock-btn" type="button" data-i18n-title="nav.settings">
+            <i class="ph ph-gear" aria-hidden="true"></i>
+            <span class="dock-label" data-i18n="nav.settings"></span>
+          </button>
+        </nav>
+        </div>
+        <div id="dataStatus" class="data-status-host" data-tauri-drag-region="false"></div>
+      </div>
+    </div>
+    <div id="collectOverlay" class="collect-overlay" role="alertdialog" aria-live="polite" data-i18n-aria-label="collect.title" hidden>
+      <div class="collect-overlay-drag" data-tauri-drag-region></div>
+      <div class="collect-body">
+        <div class="collect-ring">
+          <svg viewBox="0 0 112 112" aria-hidden="true">
+            <circle class="collect-ring-track" cx="56" cy="56" r="50" />
+            <circle class="collect-ring-fill" cx="56" cy="56" r="50" />
+          </svg>
+          <div class="collect-ring-value">0%</div>
+        </div>
+        <p class="collect-sub" data-i18n="collect.preparing"></p>
+        <p class="collect-eta"></p>
+        <ul class="collect-stages">
+          <li class="collect-stage is-queued" data-stage="earn" data-i18n="collect.stage.earn"></li>
+          <li class="collect-stage is-queued" data-stage="games" data-i18n="collect.stage.games"></li>
+          <li class="collect-stage is-queued" data-stage="purchases" data-i18n="collect.stage.purchases"></li>
+          <li class="collect-stage is-queued" data-stage="audience" data-i18n="collect.stage.audience"></li>
+        </ul>
+      </div>
+    </div>
+    <script src="js/i18n.js"></script>
+    <script src="js/tauri-bridge.js"></script>
+    <script src="js/icons.js"></script>
+    <script src="js/squircle.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/format.js"></script>
+    <script src="js/export.js"></script>
+    <script src="js/motion.js"></script>
+    <script src="js/pages/shared.js"></script>
+    <script src="js/pages/period.js"></script>
+    <script src="js/pages/heatmap.js"></script>
+    <script src="js/pages/export-specs.js"></script>
+    <script src="js/pages/games.js"></script>
+    <script src="js/pages/compare.js"></script>
+    <script src="js/pages/workspace.js"></script>
+    <script src="js/pages/tax.js"></script>
+    <script src="js/pages/settings.js"></script>
+    <script src="js/pages/index.js"></script>
+    <script src="js/collect-overlay.js"></script>
+    <script src="js/onboarding.js"></script>
+    <script src="js/backup.js"></script>
+    <script src="js/lang-picker.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

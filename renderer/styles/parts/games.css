@@ -1,0 +1,652 @@
+/* Игры, карта, подсказки */
+
+.kpi-value-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.kpi-side-meta {
+  color: var(--muted);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.kpi-sub.is-good {
+  color: var(--ok, #3dd68c);
+}
+
+.rating-bar {
+  margin-top: 10px;
+  height: 4px;
+  border-radius: 99px;
+  background: #2a2a2a;
+  overflow: hidden;
+}
+
+.rating-bar i {
+  display: block;
+  height: 100%;
+  background: var(--ok, #3dd68c);
+  border-radius: 99px;
+}
+
+.home-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 0.9fr;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.home-grid-2 {
+  --home-map-h: 400px;
+  grid-template-columns: 1.6fr 1fr;
+  align-items: stretch;
+}
+
+.home-grid-2 > .panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.panel.stretch {
+  min-height: 0;
+}
+
+.heatmap-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.heatmap {
+  --heat-gap: 4px;
+  position: relative;
+  width: 100%;
+  height: var(--home-map-h, 400px);
+  min-height: var(--home-map-h, 400px);
+  max-height: var(--home-map-h, 400px);
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+}
+
+.heatmap-cell {
+  --heat-icon: 34px;
+  --heat-clamp: 2;
+  position: absolute;
+  box-sizing: border-box;
+  margin: 0;
+  padding: var(--heat-gap, 4px);
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  color: var(--text);
+  overflow: hidden;
+  opacity: 0;
+  transition: filter 0.18s ease, opacity 0.2s ease;
+}
+
+.heatmap.is-drawn .heatmap-cell {
+  opacity: 1;
+}
+
+.heatmap-cell:hover,
+.heatmap-cell:focus-visible {
+  z-index: 5;
+  outline: none;
+  filter: brightness(1.08);
+}
+
+.heatmap-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.heatmap-cell.up .heatmap-inner {
+  background: var(--accent-deep);
+  color: #e8fff3;
+}
+
+.heatmap-cell.down .heatmap-inner {
+  background: var(--danger-bg);
+  color: var(--danger);
+}
+
+.heatmap-cell.flat .heatmap-inner {
+  background: var(--accent-tint);
+}
+
+.heatmap-cell.hot .heatmap-inner {
+  background: #1e7a50;
+}
+
+.heatmap-cell.warm .heatmap-inner {
+  background: #14573a;
+}
+
+.heatmap-cell.cool .heatmap-inner {
+  background: #223229;
+}
+
+.heatmap-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 8px;
+  min-width: 0;
+  width: 100%;
+}
+
+/* Вертикальная плитка: название уходит под иконку и переносится по словам,
+   вместо обрезки вида «Итальянс…» */
+.heatmap-cell.heat-tall .heatmap-head {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.heatmap-cell.heat-tall .heatmap-title {
+  width: 100%;
+  flex: 1 1 auto;
+}
+
+/* Совсем мало места: название скрываем, иконка остаётся крупной */
+.heatmap-cell.heat-narrow .heatmap-title {
+  display: none;
+}
+
+.heatmap-cell.heat-narrow .heatmap-head {
+  flex: 1 1 auto;
+  align-items: flex-start;
+}
+
+.heatmap-icon {
+  width: var(--heat-icon, 34px);
+  height: var(--heat-icon, 34px);
+  border-radius: calc(var(--heat-icon, 34px) * 0.27);
+  object-fit: cover;
+  flex-shrink: 0;
+  background: rgba(0, 0, 0, 0.28);
+}
+
+.heatmap-icon.placeholder {
+  display: grid;
+  place-items: center;
+  font-size: calc(var(--heat-icon, 34px) * 0.4);
+  font-weight: 700;
+  color: inherit;
+  opacity: 0.85;
+}
+
+.heatmap-icon-stack {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  width: calc(var(--heat-icon, 34px) * 1.72);
+  height: var(--heat-icon, 34px);
+}
+
+.heatmap-icon-stack .heatmap-icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--heat-icon, 34px);
+  height: var(--heat-icon, 34px);
+  border: 1px solid rgba(0, 0, 0, 0.35);
+  box-sizing: border-box;
+}
+
+.heatmap-icon-stack .heatmap-icon:nth-child(2) {
+  left: calc(var(--heat-icon, 34px) * 0.36);
+  z-index: 1;
+}
+
+.heatmap-icon-stack .heatmap-icon:nth-child(3) {
+  left: calc(var(--heat-icon, 34px) * 0.72);
+  z-index: 2;
+}
+
+.heatmap-icon-more {
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+  z-index: 3;
+  min-width: calc(var(--heat-icon, 34px) * 0.58);
+  height: calc(var(--heat-icon, 34px) * 0.52);
+  padding: 0 5px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  font-size: calc(var(--heat-icon, 34px) * 0.28);
+  font-weight: 700;
+  background: rgba(0, 0, 0, 0.72);
+  color: #fff;
+}
+
+.heatmap-title {
+  min-width: 0;
+  flex: 1;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 1.25;
+  display: -webkit-box;
+  -webkit-line-clamp: var(--heat-clamp, 2);
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  text-align: left;
+}
+
+.heatmap-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  margin-top: auto;
+}
+
+.heatmap-value,
+.heatmap-delta {
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  min-width: 0;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  line-height: 1.15;
+  font-weight: 650;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: rgba(0, 0, 0, 0.28);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Фон значения — только под цифрами, остальное место отдаём дельте */
+.heatmap-value {
+  flex: 0 1 auto;
+}
+
+.heatmap-delta {
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+
+.heatmap-delta.pos {
+  color: #9dffc9;
+  background: rgba(61, 214, 140, 0.18);
+}
+
+.heatmap-delta.neg {
+  color: #ffb4b0;
+  background: rgba(220, 80, 70, 0.22);
+}
+
+.heatmap-delta.muted,
+.heatmap-delta.flat {
+  opacity: 0.75;
+}
+
+/* Размер иконки задаёт JS через --heat-icon (от меньшей стороны плитки),
+   поэтому здесь остаются только размеры текста и служебные отступы. */
+.heatmap-cell.heat-lg .heatmap-title {
+  font-size: 13px;
+}
+
+.heatmap-cell.heat-md .heatmap-title {
+  font-size: 12px;
+}
+
+.heatmap-cell.heat-md .heatmap-inner {
+  padding: 8px;
+}
+
+/* Small: icon top-left + title + delta */
+.heatmap-cell.heat-sm .heatmap-inner {
+  padding: 8px;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.heatmap-cell.heat-sm .heatmap-title {
+  font-size: 11px;
+}
+
+.heatmap-cell.heat-sm .heatmap-value {
+  display: none;
+}
+
+.heatmap-cell.heat-sm .heatmap-meta {
+  margin-top: 0;
+}
+
+/* Extra-small: icon top-left only */
+.heatmap-cell.heat-xs .heatmap-inner {
+  padding: 6px;
+  justify-content: flex-start;
+}
+
+.heatmap-cell.heat-xs .heatmap-title,
+.heatmap-cell.heat-xs .heatmap-meta {
+  display: none;
+}
+
+.heatmap-cell.heat-other .heatmap-title {
+  opacity: 0.95;
+}
+
+.panel-title-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.panel-title-row h2 {
+  margin: 0;
+}
+
+.panel-head > :first-child,
+.compare-section-chart-head > :first-child {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.export-host {
+  flex: 0 0 auto;
+  margin-left: 8px;
+  align-self: center;
+}
+
+.export-host.is-corner {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  z-index: 4;
+  margin: 0;
+}
+
+.compare-section-chart-head > .export-host {
+  align-self: flex-start;
+  margin-left: 0;
+  flex: 0 0 auto;
+}
+
+.compare-section-chart-head .chart-legend {
+  margin-top: 0;
+}
+
+.panel:has(> .export-host.is-corner) > .panel-head,
+.compare-section-chart:has(> .export-host.is-corner) > .compare-section-chart-head {
+  padding-right: 64px;
+}
+
+.export-btn {
+  color: var(--muted);
+}
+
+.export-btn:hover,
+.export-btn:focus-visible {
+  color: var(--text);
+  outline: none;
+}
+
+.export-pop {
+  position: fixed;
+  z-index: 90;
+  width: 248px;
+  padding: 6px;
+  border-radius: 14px;
+  background: #161616;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+  display: grid;
+  gap: 2px;
+}
+
+.export-pop[hidden] {
+  display: none;
+}
+
+.export-pop-note {
+  padding: 6px 10px 4px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.export-pop-sep {
+  height: 1px;
+  margin: 4px 8px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.export-pop button {
+  appearance: none;
+  width: 100%;
+  text-align: left;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text);
+  padding: 8px 10px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.export-pop button:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.export-pop button[data-fmt='analysis'] {
+  color: #d8dde8;
+}
+
+.ws-game-copy {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.ws-export-btn {
+  font-size: 12px;
+}
+
+.ws-export-btn .ph {
+  font-size: 14px;
+}
+
+.heatmap-cell.heat-other {
+  cursor: pointer;
+}
+
+/* Ховер карты — тот же шаблон, что у графиков (.chart-tooltip). */
+.chart-tooltip.heat-popover {
+  position: fixed;
+  z-index: 80;
+  width: min(300px, calc(100vw - 24px));
+  max-height: min(420px, calc(100vh - 24px));
+  overflow: auto;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.chart-tooltip.heat-popover.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  pointer-events: auto;
+}
+
+.chart-tooltip.heat-popover[hidden] {
+  display: block !important;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.heat-pop-list {
+  display: grid;
+  gap: 4px;
+  margin-top: 6px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.heat-pop-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+  width: 100%;
+  margin: 0;
+  padding: 6px 8px;
+  border: 0;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--muted);
+  font-size: 12px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.heat-pop-item b {
+  color: var(--text);
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+}
+
+.heat-pop-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.heat-sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+}
+
+.heat-sheet[hidden] {
+  display: none !important;
+}
+
+.heat-sheet-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.heat-sheet-panel {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(520px, calc(100vw - 32px));
+  max-height: min(70vh, 640px);
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-lg);
+  background: #121212;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+  overflow: hidden;
+}
+
+.heat-sheet-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.heat-sheet-head h3 {
+  margin: 0;
+  font-size: 15px;
+}
+
+.heat-sheet-body {
+  padding: 12px 16px 16px;
+  overflow: auto;
+}
+
+.heat-sheet-meta {
+  margin-bottom: 10px;
+  font-size: 12px;
+}
+
+.heat-sheet-list {
+  display: grid;
+  gap: 6px;
+}
+
+.heat-sheet-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin: 0;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+}
+
+.heat-sheet-row:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.heat-sheet-row .game-icon {
+  width: 32px;
+  height: 32px;
+}
+
+.heat-sheet-row-text {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.heat-sheet-row-text strong {
+  font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.heat-sheet-row b {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+@media (max-width: 720px) {
+  .home-grid-2 {
+    --home-map-h: 280px;
+  }
+}
+
