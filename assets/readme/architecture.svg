@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" font-family="-apple-system, 'Segoe UI', Inter, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8a94a6"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="360" rx="24" fill="#f6f7f9"/>
+
+  <!-- Boxes -->
+  <g>
+    <rect x="60" y="120" width="230" height="120" rx="18" fill="#ffffff" stroke="#dfe3ea" stroke-width="2"/>
+    <text x="175" y="170" text-anchor="middle" font-size="20" font-weight="650" fill="#1f2430">Кабинет Яндекс Игр</text>
+    <text x="175" y="200" text-anchor="middle" font-size="15" fill="#6b7384">консоль разработчика</text>
+  </g>
+  <g>
+    <rect x="345" y="120" width="230" height="120" rx="18" fill="#ffffff" stroke="#dfe3ea" stroke-width="2"/>
+    <text x="460" y="170" text-anchor="middle" font-size="20" font-weight="650" fill="#1f2430">Nami Collector</text>
+    <text x="460" y="200" text-anchor="middle" font-size="15" fill="#6b7384">расширение Chrome</text>
+  </g>
+  <g>
+    <rect x="630" y="120" width="230" height="120" rx="18" fill="#2f6fed"/>
+    <text x="745" y="170" text-anchor="middle" font-size="20" font-weight="650" fill="#ffffff">Nami</text>
+    <text x="745" y="200" text-anchor="middle" font-size="15" fill="#dbe7ff">приложение на Tauri</text>
+  </g>
+  <g>
+    <rect x="915" y="120" width="230" height="120" rx="18" fill="#ffffff" stroke="#dfe3ea" stroke-width="2"/>
+    <text x="1030" y="170" text-anchor="middle" font-size="20" font-weight="650" fill="#1f2430">SQLite</text>
+    <text x="1030" y="200" text-anchor="middle" font-size="15" fill="#6b7384">база на вашем компьютере</text>
+  </g>
+
+  <!-- Arrows -->
+  <line x1="290" y1="180" x2="342" y2="180" stroke="#8a94a6" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <line x1="575" y1="180" x2="627" y2="180" stroke="#8a94a6" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <line x1="860" y1="180" x2="912" y2="180" stroke="#8a94a6" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <!-- Arrow labels -->
+  <text x="316" y="106" text-anchor="middle" font-size="14" fill="#6b7384">ответы консоли</text>
+  <text x="601" y="106" text-anchor="middle" font-size="14" fill="#6b7384">localhost:17321</text>
+  <text x="886" y="106" text-anchor="middle" font-size="14" fill="#6b7384">нормализация</text>
+
+  <!-- Footnote -->
+  <text x="600" y="292" text-anchor="middle" font-size="16" fill="#1f2430">Данные передаются только на localhost, по токену. Ничего не уходит в интернет.</text>
+  <text x="600" y="320" text-anchor="middle" font-size="14" fill="#6b7384">Сохранённые ответы консоли вырезаются от секретов и CSRF-токенов до записи в базу.</text>
+</svg>

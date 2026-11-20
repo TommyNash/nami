@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nami — аналитика игр Яндекс Игр</title>
+  <meta name="description" content="Nami: локальная аналитика игр из кабинета Яндекс Игр. Данные на вашем компьютере, открытый код.">
+  <link rel="stylesheet" href="fonts/fonts.css">
+  <link rel="stylesheet" href="styles.css">
+  <script src="config.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="#top" aria-label="Nami">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span>Nami</span>
+    </a>
+    <nav>
+      <a href="#download">Скачать</a>
+      <a href="#extension">Расширение</a>
+      <a href="#community">Сообщество</a>
+      <a data-repo-link href="#" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <p class="kicker">Аналитика портфеля Яндекс Игр</p>
+      <h1>Доход, игроки и динамика — на вашем компьютере</h1>
+      <p class="lead">
+        Nami собирает данные из кабинета Яндекс Игр через расширение Chrome
+        и показывает отчёты в приложении. Ничего не уходит в интернет.
+      </p>
+      <div class="cta">
+        <a class="btn primary" href="#download">Скачать</a>
+        <a class="btn" data-repo-link href="#" target="_blank" rel="noopener">Исходный код</a>
+      </div>
+      <p class="version" data-version></p>
+    </section>
+
+    <section id="download" class="block">
+      <h2>Скачать</h2>
+      <p class="muted">Файлы берутся из последнего релиза на GitHub.</p>
+      <div class="downloads">
+        <a id="dl-mac-arm" class="dl is-pending" href="#" rel="noopener">
+          <span class="dl-os">macOS</span>
+          <span class="dl-name">Apple Silicon (M1–M4)</span>
+          <span class="dl-file" data-label>Загрузка…</span>
+        </a>
+        <a id="dl-mac-intel" class="dl is-pending" href="#" rel="noopener">
+          <span class="dl-os">macOS</span>
+          <span class="dl-name">Intel</span>
+          <span class="dl-file" data-label>Загрузка…</span>
+        </a>
+        <a id="dl-win" class="dl is-pending" href="#" rel="noopener">
+          <span class="dl-os">Windows</span>
+          <span class="dl-name">Windows 10 / 11, 64-bit</span>
+          <span class="dl-file" data-label>Загрузка…</span>
+        </a>
+      </div>
+      <ul class="notes">
+        <li><strong>macOS:</strong> сборка без подписи Apple. При первом запуске откройте приложение через правый клик → «Открыть». Если macOS пишет, что приложение «повреждено», выполните в Терминале: <code>xattr -cr "/Applications/Nami.app"</code></li>
+        <li><strong>Windows:</strong> SmartScreen может предупредить. Нажмите «Подробнее» → «Выполнить в любом случае».</li>
+        <li>Все версии и список изменений — на <a data-releases-link href="#">странице релизов</a>.</li>
+      </ul>
+    </section>
+
+    <section id="extension" class="block">
+      <h2>Расширение Nami Collector</h2>
+      <ol class="steps">
+        <li>Откройте в Nami раздел <strong>Настройки</strong> и скачайте архив расширения.</li>
+        <li>Распакуйте архив. В Chrome откройте <code>chrome://extensions</code>.</li>
+        <li>Включите <strong>Режим разработчика</strong> и выберите <strong>Загрузить распакованное</strong>.</li>
+        <li>В popup расширения нажмите <strong>Подключить к приложению</strong>.</li>
+      </ol>
+    </section>
+
+    <section id="community" class="block">
+      <h2>Открытый проект</h2>
+      <p>
+        Nami можно изучать, форкать, предлагать правки и использовать в некоммерческих целях.
+        Лицензия <strong>PolyForm Noncommercial 1.0.0</strong>.
+      </p>
+      <div class="cards">
+        <a class="card" data-repo-link href="#" target="_blank" rel="noopener">
+          <strong>Код и issues</strong>
+          <span>Баги, идеи и pull requests на GitHub</span>
+        </a>
+        <a class="card" href="https://github.com/TommyNash/nami/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener">
+          <strong>Как внести вклад</strong>
+          <span>Форк, ветка, проверки и правила проекта</span>
+        </a>
+        <a class="card" href="https://github.com/TommyNash/nami/blob/main/COMMERCIAL.md" target="_blank" rel="noopener">
+          <strong>Коммерческое использование</strong>
+          <span>Продажа и платное распространение — с согласия Founders Games</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <span>© 2026 Founders Games</span>
+    <a data-repo-link href="#" target="_blank" rel="noopener">GitHub</a>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,1066 @@
+{
+  "_meta": {
+    "name": "English",
+    "locale": "en-US"
+  },
+  "app": {
+    "titles": {
+      "games": "Games",
+      "game": "Game",
+      "compare": "Compare",
+      "tax": "Income",
+      "collector": "Data collection",
+      "settings": "Settings"
+    },
+    "status": {
+      "collecting": "Collecting",
+      "empty": "No data",
+      "online": "Connected",
+      "offline": "No connection",
+      "lag": "Lagging",
+      "lagDays": {
+        "one": "{count} day",
+        "few": "{count} days",
+        "many": "{count} days",
+        "other": "{count} days"
+      },
+      "dataFor": "Data for",
+      "checked": "Last check",
+      "console": "Console",
+      "consoleOnline": "connected",
+      "consoleOffline": "no connection",
+      "refreshNow": "Refresh now"
+    },
+    "period": {
+      "day": "Day",
+      "week": "Week",
+      "month": "Month",
+      "quarter": "Quarter",
+      "year": "Year",
+      "all": "All time"
+    },
+    "greeting": {
+      "night": "Hello",
+      "morning": "Good morning",
+      "day": "Good afternoon",
+      "evening": "Good evening"
+    },
+    "back": "Back",
+    "sectionWip": "This section is under development",
+    "loading": "Loading…",
+    "error": "Error: {message}"
+  },
+  "backup": {
+    "unknownError": "unknown error",
+    "dateUnknown": "unknown date",
+    "saving": "Saving…",
+    "saved": "Saved: {path} · {size}",
+    "saveFailed": "Couldn’t save: {error}",
+    "checking": "Checking…",
+    "restoring": "Restoring…",
+    "restoreFailed": "Couldn’t restore: {error}",
+    "size": {
+      "mb": "{value} MB",
+      "kb": "{value} KB"
+    },
+    "confirm": {
+      "version": " · Nami {version}",
+      "title": "Backup from {date}{version}",
+      "counts": "Games: {games} · earnings records: {earnings} · console responses: {raw}",
+      "warning": "Current data will be replaced. Nami will save a safety backup first.",
+      "question": "Continue?"
+    }
+  },
+  "charts": {
+    "noChartData": "No data for the chart",
+    "noData": "No data",
+    "noHourlyData": "No hourly data",
+    "avgShort": "avg",
+    "averageLower": "average",
+    "average": "Average",
+    "seriesName": "series {n}",
+    "weekend": "Weekends",
+    "weekendHint": "Highlight Friday to Sunday",
+    "trend": "Trend",
+    "smoothedTrend": "Smoothed trend, {days} d",
+    "trendToolHint": "The dashed line is a {days}-day moving average. It smooths out daily swings and shows the direction.",
+    "movingAvgMonths": "{months}-month moving average",
+    "barChart": "Bar chart",
+    "thousandsShort": "K",
+    "playersByDay": "Players by day",
+    "playersValue": "Players: {value}",
+    "peak": "Peak: {time}",
+    "inner": "Inner",
+    "outer": "Outer",
+    "tip": {
+      "vsPrevDay": "vs previous day",
+      "changeVsPrevDay": "change vs previous day",
+      "value": "Value",
+      "collected": "Collected",
+      "set": "Set",
+      "yearAgo": "A year ago",
+      "yearAgoWithHint": "A year ago · {hint}",
+      "purchases": "Purchases",
+      "ads": "Ads",
+      "total": "Total"
+    },
+    "stats": {
+      "change": "Change over period",
+      "changeHint": "Last point compared with the first on the chart: {first} → {last}",
+      "avgHint": "Arithmetic mean of the points in the selected range (total: {n})",
+      "minMax": "Minimum / maximum",
+      "minMaxHint": "Lowest and highest value over the whole range on the chart",
+      "wow": "Week over week",
+      "wowHint": "The average of the last 7 days compared with the average of the previous 7 days",
+      "wowNeedData": "At least 14 days of data are needed to compare two weeks",
+      "notEnoughData": "not enough data"
+    },
+    "help": {
+      "title": "How to read the metrics",
+      "change": "<strong>Change over period</strong> — the last point minus the first on this chart",
+      "average": "<strong>Average</strong> — the typical level across all days in the series",
+      "minMax": "<strong>Minimum / maximum</strong> — the spread of values in the range",
+      "wow": "<strong>Week over week</strong> — the average of the last 7 days compared with the previous 7",
+      "trend": "<strong>Smoothed trend, {days} d</strong> — the dashed line, removes daily noise",
+      "avgLine": "<strong>avg</strong> — the line of the average over the visible range (zeros at the edges are trimmed)"
+    }
+  },
+  "chrome": {
+    "sponsored": "Sponsored"
+  },
+  "collect": {
+    "sessionExpired": "Session expired, reloading the console",
+    "stageProgress": "{stage} · {current} of {total}",
+    "preparing": "Preparing",
+    "eta": {
+      "almost": "Almost done",
+      "seconds": "About {n} sec left",
+      "minutes": "About {n} min left",
+      "hoursMinutes": "About {hours} h {minutes} min left",
+      "hours": "About {hours} h left"
+    },
+    "stage": {
+      "earn": "Income",
+      "games": "Games",
+      "purchases": "Purchases",
+      "audience": "Audience"
+    },
+    "title": "Collecting data"
+  },
+  "compare": {
+    "title": "Game comparison",
+    "lead": "Select at least two games. Metrics are calculated for the selected period.",
+    "addGame": "+ Add game",
+    "loading": "Loading…",
+    "insights": "Takeaways",
+    "pickGames": "Select games to compare.",
+    "hideChart": "Hide chart",
+    "showChart": "Chart",
+    "needTwo": "Select at least two games to compare metrics.",
+    "failed": "Couldn’t compare: {error}"
+  },
+  "export": {
+    "headers": {
+      "date": "Date",
+      "gameId": "Game ID",
+      "gameTitle": "Game",
+      "metric": "Metric",
+      "value": "Value",
+      "unit": "Unit",
+      "dataset": "Dataset",
+      "availableFrom": "Available from",
+      "availableTo": "Available to"
+    },
+    "portfolio": "Portfolio",
+    "sheetData": "Data",
+    "menuNote": "Data export",
+    "format": {
+      "csv": "CSV",
+      "xlsx": "Excel (.xlsx)",
+      "json": "JSON",
+      "analysis": "For analysis · AI / pandas"
+    },
+    "download": "Download"
+  },
+  "exportSpecs": {
+    "scope": {
+      "compare": "Comparison",
+      "portfolio": "Portfolio",
+      "income": "Income"
+    }
+  },
+  "format": {
+    "currency": "₽",
+    "periodAcc": {
+      "for": "for {label}",
+      "range": "for {from}–{to}",
+      "day": "for the day",
+      "week": "for the week",
+      "month": "for the month",
+      "quarter": "for the quarter",
+      "year": "for the year",
+      "all": "for all time",
+      "other": "for the period"
+    },
+    "periodNoun": {
+      "day": "day",
+      "week": "week",
+      "month": "month",
+      "quarter": "quarter",
+      "year": "year",
+      "all": "all time"
+    }
+  },
+  "games": {
+    "common": {
+      "players": "Players",
+      "earn": "Income",
+      "dynamics": "Change",
+      "noTitle": "Untitled"
+    },
+    "strip": {
+      "gamesOf": {
+        "one": "{withValue} of {games} game",
+        "few": "{withValue} of {games} games",
+        "many": "{withValue} of {games} games",
+        "other": "{withValue} of {games} games"
+      },
+      "sumByGames": "sum across games",
+      "earnPending": "{day}: income not calculated yet (games in the query: {games})",
+      "earnEst": "{day}: only in the period total, not collected by day",
+      "dayNotCollected": "{day}: data for this day was not collected",
+      "sourcePanel": "panel snapshot",
+      "sourceSeries": "metric series",
+      "playersHole": "{day}: Yandex returned 0, gap in the data",
+      "playersLag": "{day}: Yandex hasn’t returned the data yet",
+      "playersNone": "{day}: no data",
+      "playersDay": {
+        "one": "{day}: {count} player",
+        "few": "{day}: {count} players",
+        "many": "{day}: {count} players",
+        "other": "{day}: {count} players"
+      },
+      "publishedOf": "({games} of {max} publ.)",
+      "noData": "No data for the period yet",
+      "window": "period {from}–{to}",
+      "earnDays": "Income by day: {got} of {total} d",
+      "sum": "sum {sum}",
+      "pendingDays": "days not calculated: {n}",
+      "estDays": "only in the period total: {n} d",
+      "lastDay": "latest: {day}",
+      "fullSlice": "Complete data for {full} of {total} d",
+      "partial": "incomplete: {n}",
+      "meanOver": {
+        "one": "average over {count} day",
+        "few": "average over {count} days",
+        "many": "average over {count} days",
+        "other": "average over {count} days"
+      },
+      "dataFor": "data for {day}",
+      "dataForLag": "data for {day} · lag {lag} d",
+      "noPlayersSeries": "no daily player data for this period"
+    },
+    "heat": {
+      "compare": {
+        "prev_period": "Previous period",
+        "prev_month": "Previous month",
+        "d7": "7 days",
+        "d14": "14 days",
+        "d30": "30 days"
+      },
+      "byEarn": "Games by income",
+      "byPlayers": "Games by players",
+      "metricAria": "Map metric",
+      "compareAria": "Comparison"
+    },
+    "kpi": {
+      "avgPerDay": "Average income per day",
+      "playersPerDay": "Players per day",
+      "earnPerPlayer": "Period income ÷ players",
+      "ownCalc": "our calculation · not the platform’s ARPDAU"
+    },
+    "earn": {
+      "byMonth": "Income by month",
+      "taxTitle": "Tax reconciliation",
+      "noMonths": "No income by month",
+      "openTax": "Open tax reconciliation"
+    },
+    "table": {
+      "heading": "Games",
+      "publishedOnlyTitle": "Show only published games",
+      "hideInactive": "Hide inactive",
+      "searchPlaceholder": "Search…",
+      "modeSum": "total for period",
+      "modeAvg": "average/day",
+      "shareEarn": "of income",
+      "sharePlayers": "of players",
+      "colGame": "Game",
+      "colStatus": "Status",
+      "colShare": "Share",
+      "colEarnTitle": "Income for the selected period",
+      "colPerPlayer": "Per player",
+      "colPerPlayerTitle": "Period income ÷ average players per day",
+      "playersModeTitle": "How to count players",
+      "shareMetricTitle": "What to calculate the share from",
+      "dynamicsTitle": "Metric and comparison period",
+      "menuAvg": "Average/day",
+      "menuSum": "Total for period",
+      "menuFromPlayers": "From players",
+      "menuFromEarn": "From income",
+      "capShow": "Show",
+      "capCompareWith": "Compare with",
+      "vs": {
+        "prev_month": "previous month",
+        "prev_period": "previous period",
+        "d7": "previous 7 days",
+        "d14": "previous 14 days",
+        "d30": "previous 30 days"
+      },
+      "noPublished": "No published games",
+      "noSearch": "Nothing found"
+    },
+    "dyn": {
+      "vsDefault": "vs previous period",
+      "was": "Was · {compare}",
+      "change": "Change",
+      "noBase": "nothing to compare with",
+      "metricEarnLower": "income",
+      "metricPlayersLower": "players",
+      "trigger": "{metric} · {compare}",
+      "short": {
+        "prev_month": "vs previous month",
+        "prev_period": "vs previous period",
+        "d7": "vs prev. 7 d",
+        "d14": "vs prev. 14 d",
+        "d30": "vs prev. 30 d"
+      }
+    },
+    "compare": {
+      "title": "Comparison",
+      "audience": "Audience",
+      "audienceChart": "Audience comparison",
+      "playTime": "Play time",
+      "playTimeMin": "Play time, min",
+      "quality": "Quality",
+      "qualityChart": "Quality comparison",
+      "gameReady": "Game Ready",
+      "gameReadySec": "Game Ready, sec",
+      "ratingCis": "Rating · Russia and CIS",
+      "ratingWorld": "Rating · World",
+      "ratingRuFull": "Rating in Russia and CIS",
+      "ratingWorldFull": "Rating worldwide",
+      "earnPeriod": "Income · {period}",
+      "earnChart": "Income comparison",
+      "earnByDay": "Income by day",
+      "arpdau": "ARPDAU",
+      "earnPerDay": "Income per day",
+      "arpdauRef": "ARPDAU · platform reference",
+      "insight": {
+        "topEarn": "{title} earns the most: {value}",
+        "fastest": "{title} launches fastest: {sec} sec",
+        "audienceNoEarn": "{title} has the biggest audience, but not the highest income",
+        "topArpdau": "{title} has the highest ARPDAU (platform data): {value}",
+        "topOwnArpu": "By our calculation (period income ÷ players), {title} leads: {value}",
+        "topRating": "{title} has the highest rating in Russia and the CIS"
+      },
+      "pickAtLeast2": "Select at least two games to compare metrics.",
+      "metricCol": "Metric",
+      "remove": "Remove",
+      "hide": "Hide",
+      "chart": "Chart",
+      "best": "best",
+      "periodChartTitle": "Comparison for the period",
+      "chartMetricAria": "Chart metric",
+      "perDay": "{count} per day",
+      "noGames": "No games",
+      "searchPlaceholder": "Find a game by name or ID…",
+      "noChartData": "No data for the chart",
+      "noSeries": "No “{label}” data for the period",
+      "addOne": "Add one more game to see takeaways.",
+      "littleData": "Not enough data for takeaways yet."
+    }
+  },
+  "heatmap": {
+    "otherGames": {
+      "one": "{count} more game",
+      "few": "{count} more games",
+      "many": "{count} more games",
+      "other": "{count} more games"
+    },
+    "metric": {
+      "earn": "Income",
+      "players": "Players"
+    },
+    "pop": {
+      "tailSum": "sum of the rest",
+      "noBase": "nothing to compare with",
+      "vsPrevious": "vs previous period",
+      "andMore": "and {count} more",
+      "was": "Was · {label}",
+      "change": "Change",
+      "note": "Now {current} · comparison {compare}",
+      "otherHint": "The “More” tile opens the full list; a row in the list opens the game."
+    },
+    "sheet": {
+      "aria": "Other games",
+      "title": "Other games",
+      "close": "Close",
+      "meta": "Now: {current} · Comparison ({label}): {compare}",
+      "noGames": "No games"
+    },
+    "emptyEarn": "No data for the income heatmap",
+    "emptyPlayers": "No data for the players heatmap",
+    "ariaEarn": "Games by income",
+    "ariaPlayers": "Games by players",
+    "tile": {
+      "list": "list",
+      "untitled": "Untitled",
+      "open": "open"
+    }
+  },
+  "lang": {
+    "label": "Interface language"
+  },
+  "nav": {
+    "label": "Navigation",
+    "games": "Games",
+    "compare": "Compare",
+    "settings": "Settings"
+  },
+  "onboarding": {
+    "aria": "Introduction to Nami",
+    "skip": "Skip",
+    "back": "Back",
+    "next": "Continue",
+    "install": {
+      "download": {
+        "busy": "Unpacking…",
+        "error": "Couldn’t unpack the extension",
+        "title": "Download the extension to Downloads",
+        "hint": "A nami-collector folder will appear in Downloads",
+        "action": "Download",
+        "done": "Done: {path}",
+        "failed": "Error: {error}"
+      },
+      "open": {
+        "copied": "Copied",
+        "copyFailed": "Couldn’t copy",
+        "title": "Open the Chrome extensions page",
+        "hint": "Address: {url}. Then turn on “Developer mode”",
+        "action": "Copy"
+      },
+      "title": "Install the extension",
+      "sub": "You only need to do this once.",
+      "load": {
+        "title": "Click “Load unpacked”",
+        "hint": "Select the {folder} folder in Downloads"
+      }
+    },
+    "start": "Get started",
+    "welcome": {
+      "title": "Welcome to Nami",
+      "sub": "Analytics for your games on Yandex Games: income, players, and trends on one screen.",
+      "cabinet": "Yandex Games Console",
+      "local": {
+        "title": "Everything stays local",
+        "text": "Data is stored only on your computer"
+      },
+      "auto": {
+        "title": "Auto-collection",
+        "text": "The Chrome extension takes the numbers from the console"
+      },
+      "portfolio": {
+        "title": "Whole portfolio",
+        "text": "Game comparison, periods, tax, and export"
+      }
+    },
+    "how": {
+      "title": "How it works",
+      "sub": "Three steps from the console to ready reports.",
+      "cabinet": "Console",
+      "extension": "Extension",
+      "reports": "Reports",
+      "note": {
+        "title": "Data flows one way only",
+        "text": "The extension reads what the console already shows you and passes it to Nami on this same computer. Nothing is sent to the internet."
+      }
+    },
+    "connect": {
+      "title": "Connect and collect data",
+      "sub": "The app must be running while you work in the console.",
+      "link": {
+        "title": "Open the Nami Collector extension and click “App”",
+        "waiting": "Waiting for the extension to connect",
+        "done": "Extension connected"
+      },
+      "cabinet": {
+        "title": "Click “Console” in the same place",
+        "hint": "The Yandex Games console will open by itself. Sign in if it asks you to"
+      },
+      "data": {
+        "title": "Click the big “Update data” button",
+        "waiting": "The collection screen will appear in the app. It takes a couple of minutes",
+        "done": "Data is already in the app"
+      }
+    },
+    "done": {
+      "title": "All set",
+      "sub": "From now on, data updates with one click.",
+      "games": {
+        "title": "Games",
+        "text": "Portfolio map, income, and players for each game"
+      },
+      "compare": {
+        "title": "Compare",
+        "text": "Games and periods on one chart"
+      },
+      "settings": {
+        "title": "Settings",
+        "text": "Connection, export, and replaying this introduction"
+      }
+    },
+    "count": "{current} of {total}"
+  },
+  "pages": {
+    "common": {
+      "games": "Games",
+      "game": "Game",
+      "players": "Players",
+      "noData": "No data"
+    },
+    "games": {
+      "compareDefault": "vs previous period",
+      "maxMonth": "max {value} · {month}",
+      "lead": "Portfolio summary · {period}",
+      "earnSub": {
+        "one": "{count} of {total} games earning",
+        "few": "{count} of {total} games earning",
+        "many": "{count} of {total} games earning",
+        "other": "{count} of {total} games earning"
+      },
+      "earnSubEstimated": {
+        "one": "{count} of {total} games earning · recent days are estimates",
+        "few": "{count} of {total} games earning · recent days are estimates",
+        "many": "{count} of {total} games earning · recent days are estimates",
+        "other": "{count} of {total} games earning · recent days are estimates"
+      },
+      "avgSub": {
+        "one": "over {count} day",
+        "few": "over {count} days",
+        "many": "over {count} days",
+        "other": "over {count} days"
+      },
+      "playersSub": "at period end · {value}",
+      "playersNoteSum": "Players: sum of daily values for the period",
+      "playersNoteAvg": "Players: daily average for the period",
+      "shareNoteEarn": "share of period income",
+      "shareNotePlayers": "share of players",
+      "dynNoteEarn": "income change {compare}",
+      "dynNotePlayers": "players change {compare}",
+      "hiddenInactive": {
+        "one": "{count} inactive game hidden",
+        "few": "{count} inactive games hidden",
+        "many": "{count} inactive games hidden",
+        "other": "{count} inactive games hidden"
+      },
+      "earnLabel": "Income · {period}"
+    },
+    "overview": {
+      "kicker": "Portfolio",
+      "title": "Key metrics",
+      "allGames": "across all games",
+      "playTimePerPlayer": "Play time per player, s",
+      "topPlayers": "Top by players",
+      "ratingRuCis": "Rating · Russia and CIS",
+      "gameReadySec": "Game Ready, sec",
+      "portfolioAverage": "portfolio average",
+      "consoleHint": "As in the console dashboard. Open a game to see geography and platforms."
+    },
+    "workspace": {
+      "noGameData": "No data for this game.",
+      "backToGames": "Back to games",
+      "layersLabel": "Game sections",
+      "layersTitle": "Sections",
+      "nav": {
+        "summary": "Overview",
+        "playtime": "Play time",
+        "ready": "Game Ready",
+        "rating": "Rating",
+        "revenue": "Income",
+        "audience": "Audience",
+        "conversion": "CTR and conversions",
+        "purchases": "Purchases"
+      }
+    }
+  },
+  "period": {
+    "label": "Period",
+    "pickerLabel": "Choose period",
+    "options": {
+      "day": "Day",
+      "week": "Week",
+      "month": "Month",
+      "year": "Year",
+      "all": "All time"
+    },
+    "monthShort": {
+      "jan": "Jan",
+      "feb": "Feb",
+      "mar": "Mar",
+      "apr": "Apr",
+      "may": "May",
+      "jun": "Jun",
+      "jul": "Jul",
+      "aug": "Aug",
+      "sep": "Sep",
+      "oct": "Oct",
+      "nov": "Nov",
+      "dec": "Dec"
+    },
+    "weekdayShort": {
+      "mon": "Mon",
+      "tue": "Tue",
+      "wed": "Wed",
+      "thu": "Thu",
+      "fri": "Fri",
+      "sat": "Sat",
+      "sun": "Sun"
+    },
+    "currentMonth": "Current month",
+    "hint": {
+      "days": "Drag across days. The arrows switch the month.",
+      "months": "Drag across months. Double-click a month to see its days."
+    },
+    "pickDays": "Pick days",
+    "reset": "Reset",
+    "backToMonths": "Back to months",
+    "prevMonth": "Previous month",
+    "nextMonth": "Next month",
+    "prevYear": "Previous year",
+    "nextYear": "Next year",
+    "selectDays": "Select days",
+    "selectMonths": "Select months"
+  },
+  "settings": {
+    "title": "Settings",
+    "ext": {
+      "title": "Chrome extension",
+      "download": "Download",
+      "installed": "Extension installed",
+      "connected": "Connected to the app",
+      "collected": "Data collected",
+      "guide": "Guide",
+      "source": "Open folder",
+      "packing": "Unpacking…",
+      "packed": "Folder ready: {path}. In chrome://extensions choose “Load unpacked” and select this folder.",
+      "packFailed": "Error: {error}",
+      "sub": "Install once and keep it enabled"
+    },
+    "data": {
+      "games": "Games",
+      "metrics": "Metrics",
+      "earnings": "Earnings records",
+      "raw": "Console responses",
+      "rawDone": "All processed",
+      "rawPending": "Waiting to be processed: {count}",
+      "title": "Data"
+    },
+    "backup": {
+      "save": "Save",
+      "title": "Backup",
+      "sub": "All data in one file — for transfer and upgrades"
+    },
+    "restore": {
+      "pick": "Restore"
+    },
+    "reprocess": {
+      "action": "Recalculate",
+      "title": "Reprocess console responses",
+      "sub": "Process console responses again",
+      "busy": "Recalculating…",
+      "result": "Processed: {ok} of {total}\nFailed to process: {failed}\n\nSome days may stay empty: Yandex provides statistics with a delay."
+    },
+    "clearRaw": {
+      "action": "Delete",
+      "title": "Delete raw responses",
+      "sub": "Metric tables will stay in place",
+      "confirm": "Delete raw console responses?"
+    },
+    "app": {
+      "period": "Default period",
+      "tour": {
+        "action": "Open",
+        "title": "Introduction to Nami",
+        "sub": "A short tour: how collection works and what to do next"
+      },
+      "title": "Interface",
+      "sub": "How the app looks when it opens",
+      "hideInactive": {
+        "title": "Hide inactive games",
+        "sub": "Only published games in the list and on the map"
+      },
+      "language": {
+        "title": "Interface language",
+        "sub": "The window will reload after you choose a language"
+      }
+    },
+    "demo": {
+      "reset": {
+        "action": "Reset",
+        "title": "Reset demo data",
+        "sub": "Reset the demo database and fill it with fictional games again",
+        "confirm": "Overwrite the demo database with fictional data?",
+        "failed": "Couldn’t recreate the demo data"
+      },
+      "show": {
+        "title": "Show demo data",
+        "sub": "A separate file, nami-demo.sqlite. Data collected from the console is still written to the working database"
+      },
+      "switchFailed": "Couldn’t switch demo mode"
+    },
+    "dev": {
+      "address": "Data receiving address",
+      "token": "Access token",
+      "tokenHidden": "Token hidden",
+      "copy": "Copy",
+      "journal": {
+        "loading": "Loading…",
+        "title": "Request log",
+        "sub": "Latest console responses",
+        "empty": "Nothing here yet",
+        "failed": "Couldn’t load",
+        "time": "Time",
+        "path": "Path",
+        "game": "Game"
+      },
+      "copied": "Copied",
+      "copyFailed": "Couldn’t copy",
+      "title": "If the extension will not connect",
+      "sub": "Receiving address, access token, and request log"
+    },
+    "conn": {
+      "online": "Connected, data is arriving",
+      "offline": "No connection to the console",
+      "waiting": "Waiting for connection",
+      "title": "Connection",
+      "sub": "Connection status and extension install",
+      "updated": "Updated: {when}"
+    },
+    "period": {
+      "day": "Day",
+      "week": "Week",
+      "month": "Month",
+      "year": "Year"
+    },
+    "export": {
+      "title": "Table for analysis",
+      "sub": "Games for the selected period as CSV, Excel, or JSON",
+      "action": "Export"
+    },
+    "files": {
+      "title": "Files",
+      "sub": "What is stored locally and how to take a copy"
+    },
+    "maintain": {
+      "title": "Maintenance",
+      "sub": "Rarely needed: reprocess, cleanup, and diagnostics"
+    }
+  },
+  "shared": {
+    "status": {
+      "published": "Published",
+      "draft": "Draft",
+      "created": "Created",
+      "moderation": "In moderation",
+      "need_work": "Needs changes",
+      "rejected": "Rejected",
+      "banned": "Banned",
+      "removed": "Removed",
+      "archived": "Archived",
+      "none": "No status"
+    },
+    "scope": {
+      "live": "Dashboard metrics are shown as of now. Income and charts are for <strong>{label}</strong> ({range}).",
+      "earnTip": " Income is calculated strictly per day or week and needs a fresh collection. Metric charts show a year, otherwise the series would look empty.",
+      "earn": "Income for: <strong>{label}</strong> · {range}.{tip}",
+      "period": "Period: <strong>{label}</strong> · {range}"
+    },
+    "attention": {
+      "statusDetail": "Status: {status}",
+      "noEarn": {
+        "one": "{count} game with no income for the period",
+        "few": "{count} games with no income for the period",
+        "many": "{count} games with no income for the period",
+        "other": "{count} games with no income for the period"
+      },
+      "noEarnDetail": "There are players, but income for the period is zero",
+      "noMetrics": {
+        "one": "{count} game without metrics",
+        "few": "{count} games without metrics",
+        "many": "{count} games without metrics",
+        "other": "{count} games without metrics"
+      },
+      "noMetricsDetail": "A full collection across all games is needed",
+      "emptyEarnTitle": "Income for the period is empty",
+      "emptyEarnDetail": "Change the period or run the collection again"
+    },
+    "series": {
+      "players": "Players",
+      "newPlayers": "New players",
+      "ratingRu": "Rating · Russia and CIS",
+      "ratingWorld": "Rating · Rest of world",
+      "playTimePerPlayer": "Play time per player",
+      "playTime": "Play time",
+      "inapp": "In-game purchases",
+      "ads": "Ads",
+      "arpdau": "ARPDAU",
+      "payingShare": "Paying share, %",
+      "payingCount": "Paying players",
+      "arppu": "ARPPU",
+      "inappCount": "Purchases, pcs",
+      "interstitial": "Interstitial",
+      "rewarded": "Rewarded",
+      "sticky": "Sticky",
+      "ctrCover": "Cover CTR",
+      "coverImpressions": "Cover impressions",
+      "ctrMyGames": "“My games” CTR",
+      "myGamesImpressions": "“My games” impressions",
+      "ctrOutsideMyGames": "CTR outside “My games”",
+      "outsideMyGamesImpressions": "Impressions outside “My games”",
+      "conversionToPlay": "Conversion to session",
+      "gameReadyP50": "Game Ready p50",
+      "p95": "p95",
+      "requests": "Requests",
+      "ttiP50": "TTI p50"
+    },
+    "metrics": {
+      "sections": {
+        "product": "Product",
+        "monetization": "Monetization",
+        "conversion": "CTR and conversions",
+        "tech": "Technical"
+      },
+      "hints": {
+        "playTime": "total on the left · per player on the right",
+        "daily": "by day",
+        "separateScale": "separate scale (rare spikes)",
+        "adsInapp": "ads on the left · purchases on the right",
+        "payingShare": "share on the left · number of paying players on the right",
+        "ctr": "CTR on the left · impressions on the right"
+      },
+      "charts": {
+        "rating": "Rating",
+        "revenueAds": "Income · ads, RUB",
+        "revenueInapp": "Income · in-game purchases, RUB",
+        "revenueBoth": "Income, RUB · comparison",
+        "arpdau": "ARPDAU · average income per player per day",
+        "paying": "Share of paying players, %",
+        "arppu": "ARPPU · average revenue per paying player",
+        "inappCount": "Number of in-game purchases",
+        "adsImpressions": "Ad impressions (interstitial / rewarded / sticky)",
+        "ctrMy": "Icon CTR in “My games”",
+        "ctrWo": "Icon CTR outside “My games”",
+        "ctp": "Conversion to a game session",
+        "playtimeConv": "Conversion by time in game",
+        "gameReady": "Game Ready, sec",
+        "tti": "Time To Interactive, sec"
+      }
+    }
+  },
+  "tax": {
+    "title": "Income",
+    "exportData": "Download data",
+    "settings": "Settings",
+    "rateLabel": "Rate, %",
+    "shiftLabel": "Payout timing",
+    "shiftSame": "in the same month",
+    "shiftNow": "payout right away",
+    "shiftPlus": "+{value} mo.",
+    "shiftPlusHint": "+{value} mo. (Oct → paid Nov)",
+    "months": "{value} mo.",
+    "payNote": "payout · {month}",
+    "avgRange": "min {min} · max {max}",
+    "headMeta": "Simplified tax (USN) {rate}% · {shift} · {count} mo.",
+    "settingsHint": "The month in a row is the month earned; the payout is shown only in the label.",
+    "kpi": {
+      "sum": "Actual · total",
+      "avg": "Average",
+      "due": "Tax due"
+    },
+    "ofSum": "{rate}% of the total",
+    "afterTax": "after tax",
+    "net": "Net",
+    "tax": "Tax",
+    "chart": {
+      "factTitle": "Actual by month",
+      "splitTitle": "Tax and net",
+      "empty": "No data by month"
+    },
+    "table": {
+      "title": "By month",
+      "earn": "Earned",
+      "console": "Console",
+      "fact": "Actual",
+      "empty": "No months"
+    },
+    "amountPlaceholder": "amount",
+    "save": "Save",
+    "saving": "Saving…"
+  },
+  "workspace": {
+    "platform": {
+      "mobile": "Mobile",
+      "desktop": "Desktop",
+      "tablet": "Tablets",
+      "tv": "TV",
+      "other": "Other"
+    },
+    "label": {
+      "players": "Players",
+      "playtime": "Play time",
+      "ready": "Game Ready",
+      "rating": "Rating",
+      "revenue": "Income",
+      "audience": "Audience",
+      "conversion": "CTR and conversions",
+      "summary": "Overview",
+      "platforms": "Platforms",
+      "countries": "Countries",
+      "reviews": "Reviews",
+      "russiaCis": "Russia and CIS",
+      "world": "World"
+    },
+    "perDayAvg": "daily average",
+    "perPlayerMinutes": "minutes per player",
+    "delta": {
+      "sinceStart": "since the start"
+    },
+    "deltaTip": {
+      "noData": "Not enough data to compare yet",
+      "players": {
+        "up": "More players",
+        "down": "Fewer players",
+        "flat": "The number of players barely changed"
+      },
+      "playtime": {
+        "up": "Playing longer",
+        "down": "Playing less",
+        "flat": "Play time barely changed"
+      },
+      "ready": {
+        "up": "Loading got slower",
+        "down": "Loading got faster",
+        "flat": "Loading speed is about the same"
+      },
+      "rating": {
+        "up": "Rating went up",
+        "down": "Rating went down",
+        "flat": "Rating barely changed"
+      },
+      "revenue": {
+        "up": "Income grew",
+        "down": "Income dropped",
+        "flat": "Income barely changed"
+      },
+      "generic": {
+        "up": "The metric grew",
+        "down": "The metric dropped",
+        "flat": "Almost no change"
+      }
+    },
+    "card": {
+      "playersTip": "Players per day {period}",
+      "playtimeTip": "Minutes per player {period}",
+      "seconds": "{value} s",
+      "untilReady": "until ready",
+      "readyTip": "Seconds until ready. Lower is better",
+      "worldRating": "world {value}",
+      "ratingTip": "Rating in Russia and CIS",
+      "revenueTip": "Game income {period}",
+      "countries": "countries: {count}",
+      "noData": "no data",
+      "audienceTip": "Countries the game is played from",
+      "geoTip": "{country}: {share} of players",
+      "noGeo": "No country data"
+    },
+    "game": {
+      "fallbackTitle": "Game"
+    },
+    "head": {
+      "updated": " · updated {date}",
+      "download": "Download data"
+    },
+    "audience": {
+      "playersUnit": "players",
+      "noPlatforms": "No platforms",
+      "geography": "Geography",
+      "average": "Average",
+      "total": "Total",
+      "noRatings": "No ratings",
+      "author": "Author",
+      "text": "Text",
+      "time": "Time",
+      "noReviews": "No reviews",
+      "country": "Country",
+      "platform": "Platform",
+      "noData": "No data"
+    },
+    "rating": {
+      "above": {
+        "one": "Above the world rating by {count} point",
+        "few": "Above the world rating by {count} points",
+        "many": "Above the world rating by {count} points",
+        "other": "Above the world rating by {count} points"
+      },
+      "below": {
+        "one": "Below the world rating by {count} point",
+        "few": "Below the world rating by {count} points",
+        "many": "Below the world rating by {count} points",
+        "other": "Below the world rating by {count} points"
+      },
+      "russiaAndWorld": "Russia and world"
+    },
+    "calendar": {
+      "playersByDay": "Players by day"
+    },
+    "headStat": {
+      "secondsUntilReady": "seconds until ready",
+      "audience": "platforms: {platforms} · countries: {countries} · average"
+    },
+    "overview": {
+      "playersPeriod": "Players for the period",
+      "byDays": "by day",
+      "byDaysRange": "by day · {range}"
+    },
+    "revenue": {
+      "byDay": "Income by day",
+      "byWeek": "Income by week",
+      "adsAndPurchases": "ads and purchases",
+      "adsAndPurchasesRange": "ads and purchases · {range}",
+      "ads": "Ads",
+      "purchases": "Purchases",
+      "empty": "No income"
+    },
+    "chart": {
+      "noSeries": "Metric series haven’t been collected. Run the collection in the extension or open the “Metrics” tab.",
+      "noData": "No data. Run a full collection across all games."
+    },
+    "metrics": {
+      "yearNote": "Charts show the trend over a year. The selected period ({period}) only affects income.",
+      "avgNote": "The dashed “avg” line is the average over the visible range.",
+      "sectionsAria": "Metric sections",
+      "cabinetNote": "As in the console: <strong>{title}</strong>. The full set of series is collected by collector 1.0.13 and newer.",
+      "otherTitle": "Other metrics",
+      "otherHint": "present in the data, not in the main blocks"
+    },
+    "purchases": {
+      "metricsTitle": "Purchase metrics",
+      "noMetrics": "No purchase metrics",
+      "catalogTitle": "Purchase catalog",
+      "sku": "SKU",
+      "name": "Name",
+      "price": "Price",
+      "noProducts": "No products"
+    }
+  }
+}

@@ -1,0 +1,649 @@
+/* Сегменты, период, капсулы */
+.toolbar-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.search {
+  flex: 1;
+  min-width: 220px;
+  max-width: 420px;
+  border: 1px solid transparent;
+  background: #171717;
+  border-radius: 999px;
+  padding: 10px 14px;
+  color: var(--text);
+}
+
+/* Док — эталон капсулы. .seg и нижний док делят одну оболочку. */
+.dock,
+.seg {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: var(--capsule-pad);
+  border: 1px solid transparent;
+  border-radius: var(--capsule-radius);
+  background: var(--capsule-fill) padding-box, var(--capsule-rim) border-box;
+  box-shadow: var(--capsule-shadow);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  /* Squircle clip-path срезает rim по контуру. Капсула остаётся pill. */
+  clip-path: none !important;
+}
+
+/* Кнопка-капсула: тот же док, без бегунка. .primary — только перекраска. */
+.capsule-btn,
+.btn,
+.ws-export-btn,
+.export-btn,
+.tax-settings-btn,
+.chrome-tax-save,
+.chart-legend-item,
+.data-status > .status-pill,
+.account-chip {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--capsule-gap);
+  height: var(--capsule-h);
+  width: auto;
+  flex: 0 0 auto;
+  /* Радиус торца — половина высоты, текст начинается на прямой части. */
+  padding: 0 var(--capsule-pad-x);
+  border: 1px solid transparent;
+  border-radius: var(--capsule-radius);
+  background: var(--capsule-fill) padding-box, var(--capsule-rim) border-box;
+  box-shadow: none;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  color: var(--text);
+  font: inherit;
+  font-size: var(--capsule-font);
+  font-weight: var(--capsule-weight);
+  line-height: 1.2;
+  white-space: nowrap;
+  cursor: pointer;
+  clip-path: none !important;
+}
+
+.capsule-btn.primary,
+.btn.primary {
+  background: linear-gradient(var(--accent), var(--accent)) padding-box,
+    linear-gradient(rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0.22)) border-box;
+  color: var(--inverse-text);
+  font-weight: 700;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.capsule-btn:hover,
+.btn:hover,
+.ws-export-btn:hover,
+.export-btn:hover,
+.tax-settings-btn:hover,
+.tax-settings-btn.is-open,
+.chrome-tax-save:hover,
+.chart-legend-item:hover,
+.data-status > .status-pill:hover,
+.account-chip.is-switchable:hover {
+  filter: brightness(1.08);
+}
+
+.capsule-btn:disabled,
+.btn:disabled,
+.chrome-tax-save:disabled {
+  opacity: 0.55;
+  cursor: default;
+  filter: none;
+}
+
+.chart-legend-item {
+  color: var(--muted);
+  gap: 6px;
+}
+
+.chart-legend-item.on {
+  color: var(--text);
+}
+
+.chart-legend-item.off {
+  opacity: 0.45;
+  text-decoration: none;
+}
+
+/* Иконка без подписи: ровный круг. Горизонтальный спад
+   на таком размере съедает бока, поэтому свет только сверху. */
+.export-btn,
+.tax-settings-btn,
+.data-status > .status-pill {
+  width: var(--capsule-h);
+  min-width: var(--capsule-h);
+  height: var(--capsule-h);
+  padding: 0;
+  gap: 0;
+  flex: 0 0 var(--capsule-h);
+  border-radius: 50%;
+  border: 1px solid transparent;
+  background:
+    var(--capsule-fill) padding-box,
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.22),
+      rgba(255, 255, 255, 0.08) 46%,
+      rgba(0, 0, 0, 0.45)
+    ) border-box;
+}
+
+.export-btn .ph,
+.tax-settings-btn .ph,
+.data-status > .status-pill .ph {
+  display: block;
+  width: 16px;
+  height: 16px;
+  font-size: 16px;
+  line-height: 1;
+  vertical-align: 0;
+}
+
+/* Скользящий thumb: позиция пишется JS (morph + parallax).
+   CSS-transition только для мелкого ресайза того же сегмента. */
+.nav-thumb,
+.fk-vtoggle__thumb {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: 999px;
+  background: var(--capsule-thumb-bg);
+  transform-origin: center center;
+  will-change: transform, width, height, filter;
+  transition: filter 0.2s ease;
+}
+
+.seg.is-instant-thumb .nav-thumb,
+.dock.is-instant-thumb .nav-thumb,
+.fk-vtoggle--instant-thumb .nav-thumb,
+.fk-vtoggle--instant-thumb .fk-vtoggle__thumb,
+.seg.is-thumb-parallax .nav-thumb,
+.dock.is-thumb-parallax .nav-thumb {
+  transition: none !important;
+}
+
+/* Hover на active: thumb чуть ярче (parallax/scale пишет JS) */
+.seg:has(.seg-btn.active:hover) .nav-thumb,
+.seg:has(.seg-btn.is-active:hover) .nav-thumb,
+.seg:has(.seg-month.active:hover) .nav-thumb,
+.seg:has(.seg-month.is-active:hover) .nav-thumb,
+.dock:has(.dock-btn.active:hover) .nav-thumb,
+.dock:has(.dock-btn.is-active:hover) .nav-thumb,
+.fk-vtoggle:has(.fk-vtoggle__btn.is-active:hover) .fk-vtoggle__thumb,
+.fk-vtoggle:has(.fk-vtoggle__btn.active:hover) .fk-vtoggle__thumb {
+  filter: brightness(1.12);
+}
+
+.seg.fk-vtoggle--static:has(.seg-btn.active:hover) .nav-thumb,
+.seg.is-thumb-static:has(.seg-btn.active:hover) .nav-thumb,
+.dock.fk-vtoggle--static:has(.dock-btn.active:hover) .nav-thumb,
+.dock.is-thumb-static:has(.dock-btn.active:hover) .nav-thumb {
+  filter: none;
+}
+
+.seg-btn,
+.fk-vtoggle__btn {
+  position: relative;
+  z-index: 1;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  -webkit-text-fill-color: currentColor;
+  padding: 8px 14px;
+  cursor: pointer;
+  border-radius: 999px;
+  font-weight: 500;
+  font-size: 12px;
+  transition:
+    color 0.32s cubic-bezier(0.32, 0.72, 0, 1),
+    transform 0.32s cubic-bezier(0.22, 1.15, 0.36, 1);
+  clip-path: none !important;
+}
+
+.seg-btn + .seg-btn {
+  border-left: 0;
+}
+
+.seg > .seg-btn.active,
+.seg > .seg-btn.is-active,
+.seg-btn.active,
+.seg-btn.is-active,
+.fk-vtoggle__btn.is-active,
+.fk-vtoggle__btn.active {
+  background: transparent;
+  color: var(--capsule-thumb-text);
+  -webkit-text-fill-color: var(--capsule-thumb-text);
+  box-shadow: none;
+  font-weight: 600;
+}
+
+.seg:not(.fk-vtoggle--static):not(.is-thumb-static) .seg-btn.active:hover,
+.seg:not(.fk-vtoggle--static):not(.is-thumb-static) .seg-btn.is-active:hover,
+.fk-vtoggle:not(.fk-vtoggle--static) .fk-vtoggle__btn.is-active:hover,
+.fk-vtoggle:not(.fk-vtoggle--static) .fk-vtoggle__btn.active:hover {
+  transform: scale(1.02);
+}
+
+.dock:not(.fk-vtoggle--static):not(.is-thumb-static) .dock-btn.active:hover,
+.dock:not(.fk-vtoggle--static):not(.is-thumb-static) .dock-btn.is-active:hover {
+  transform: scale(1.02);
+}
+
+.seg-month {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 8px 14px;
+  color: var(--muted);
+  font-weight: 500;
+  font-size: 12px;
+  cursor: pointer;
+  transition:
+    color 0.32s cubic-bezier(0.32, 0.72, 0, 1),
+    transform 0.32s cubic-bezier(0.22, 1.15, 0.36, 1);
+  clip-path: none !important;
+}
+
+.seg-month.active,
+.seg-month.is-active {
+  background: transparent;
+  color: var(--capsule-thumb-text);
+  font-weight: 600;
+}
+
+.seg:not(.fk-vtoggle--static):not(.is-thumb-static) .seg-month.active:hover,
+.seg:not(.fk-vtoggle--static):not(.is-thumb-static) .seg-month.is-active:hover {
+  transform: scale(1.02);
+}
+
+.seg-month-label {
+  pointer-events: none;
+}
+
+.seg-period-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 168px;
+}
+
+.seg-period-btn .seg-month-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.seg-period-btn .ph {
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+.seg-period-btn[aria-expanded='true'] .ph {
+  transform: rotate(180deg);
+}
+
+.seg-month select {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  border: 0;
+  background: transparent;
+  min-width: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+}
+
+.seg.seg--compact {
+  --seg-compact-pad: 3px;
+  gap: 1px;
+  padding: var(--seg-compact-pad);
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.035)) padding-box,
+    var(--capsule-fill) padding-box,
+    var(--capsule-rim) border-box;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.28);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.seg.seg--compact .seg-btn {
+  padding: 5px 11px;
+  font-size: 11.5px;
+  line-height: 1.2;
+}
+
+.seg.seg--compact .nav-thumb {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Попап выбора месяца / произвольного периода */
+.period-pop {
+  position: fixed;
+  z-index: 80;
+  width: min(280px, calc(100vw - 24px));
+  padding: 12px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: #171717;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.55);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.period-pop[hidden] {
+  display: none !important;
+}
+
+.period-pop-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.period-pop-year {
+  font-size: 14px;
+  font-weight: 650;
+  color: var(--text);
+}
+
+.period-pop-navpair {
+  display: flex;
+  gap: 4px;
+}
+
+.period-pop-nav {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: #121212;
+  color: var(--text);
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.period-pop-nav:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.period-pop-months {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.period-pop-month {
+  appearance: none;
+  border: 1px solid transparent;
+  background: #121212;
+  color: var(--muted);
+  border-radius: 10px;
+  padding: 8px 4px;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.period-pop-month.has-data {
+  color: var(--text);
+}
+
+.period-pop-month.is-active,
+.period-pop-month.is-start,
+.period-pop-month.is-end {
+  background: var(--seg-active);
+  color: var(--seg-active-text);
+  border-color: transparent;
+}
+
+.period-pop-month.is-in:not(.is-start):not(.is-end) {
+  background: rgba(237, 237, 237, 0.16);
+  color: var(--text);
+}
+
+.period-pop-month,
+.period-cal-day {
+  touch-action: none;
+  user-select: none;
+}
+
+.period-pop-month.is-future {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.period-pop-month:not(:disabled):hover {
+  border-color: rgba(255, 255, 255, 0.12);
+  color: var(--text);
+}
+
+/* Выбранные месяцы на светлом фоне — не перекрашивать текст в --text (белый). */
+.period-pop-month.is-active:not(:disabled):hover,
+.period-pop-month.is-start:not(:disabled):hover,
+.period-pop-month.is-end:not(:disabled):hover {
+  border-color: transparent;
+  color: var(--seg-active-text);
+}
+
+.period-pop-month.is-in:not(.is-start):not(.is-end):not(:disabled):hover {
+  color: var(--text);
+}
+
+.period-pop-foot {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 28px;
+  padding-top: 2px;
+}
+
+.period-pop-foot-spacer {
+  flex: 1 1 auto;
+}
+
+.period-pop-info {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: help;
+  padding: 0;
+}
+
+.period-pop-info:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.period-hint-tip {
+  position: fixed;
+  z-index: 95;
+  max-width: 240px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: #121212;
+  border: 1px solid var(--border);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.55);
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.35;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(4px);
+  transition:
+    opacity 0.12s ease,
+    transform 0.12s ease;
+}
+
+.period-hint-tip.is-open {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.period-pop-quick {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: left;
+  padding: 0;
+  cursor: pointer;
+}
+
+.period-pop-quick:hover {
+  color: var(--text);
+}
+
+.period-pop-reset {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.period-pop-reset:hover {
+  color: var(--text);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.period-pop-quick[hidden],
+.period-pop-reset[hidden] {
+  display: none !important;
+}
+
+.period-cal-week,
+.period-cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 2px;
+}
+
+.period-cal-week {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-align: center;
+}
+
+.period-cal-day {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  height: 32px;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  font-variant-numeric: tabular-nums;
+}
+
+.period-cal-day.is-out {
+  color: #5a5a5a;
+}
+
+.period-cal-day.is-today {
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+}
+
+.period-cal-day.is-in {
+  background: rgba(237, 237, 237, 0.14);
+  border-radius: 0;
+}
+
+.period-cal-day.is-start,
+.period-cal-day.is-anchor {
+  background: var(--seg-active);
+  color: var(--seg-active-text);
+  border-radius: 8px 0 0 8px;
+}
+
+.period-cal-day.is-end {
+  background: var(--seg-active);
+  color: var(--seg-active-text);
+  border-radius: 0 8px 8px 0;
+}
+
+.period-cal-day.is-start.is-end,
+.period-cal-day.is-anchor:not(.is-in) {
+  border-radius: 8px;
+}
+
+.period-cal-day.is-future,
+.period-cal-day:disabled {
+  opacity: 0.28;
+  cursor: default;
+}
+
+.period-cal-day:not(:disabled):hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.period-cal-day.is-start:hover,
+.period-cal-day.is-end:hover,
+.period-cal-day.is-anchor:hover {
+  background: var(--seg-active);
+  color: var(--seg-active-text);
+}
+
+.period-pop-sel {
+  font-size: 12px;
+  font-weight: 650;
+  color: var(--text);
+  text-align: center;
+  padding: 2px 4px 0;
+}
+
+.metrics-seg {
+  margin: 0 0 12px;
+}
+
+.period-bar-chrome {
+  width: 100%;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px 12px;
+}

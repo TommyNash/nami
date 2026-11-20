@@ -1,0 +1,31 @@
+{
+  "name": "nami",
+  "version": "0.2.0",
+  "description": "Nami — локальная аналитика игр Яндекс Игр (Founders Games)",
+  "author": "Founders Games",
+  "license": "PolyForm-Noncommercial-1.0.0",
+  "private": false,
+  "scripts": {
+    "start": "bash scripts/tauri.sh dev",
+    "tauri": "bash scripts/tauri.sh",
+    "tauri:dev": "bash scripts/tauri.sh dev",
+    "tauri:build": "npm run icons:prepare && bash scripts/tauri.sh build",
+    "icons:prepare": "node scripts/prepare-app-icons.js",
+    "macos:app": "bash scripts/dev-macos.sh",
+    "pack:extension": "bash scripts/pack-extension.sh"
+  },
+  "dependencies": {
+    "@phosphor-icons/web": "^2.1.2",
+    "@tauri-apps/api": "^2.12.4",
+    "figma-squircle": "^1.1.0",
+    "sql.js": "1.12.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TommyNash/nami.git"
+  },
+  "homepage": "https://github.com/TommyNash/nami#readme",
+  "bugs": {
+    "url": "https://github.com/TommyNash/nami/issues"
+  }
+}
