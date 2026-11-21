@@ -4,7 +4,9 @@
 
 # Your game analytics. One workspace.
 
-Nami is a desktop analytics platform for Yandex Games developers. Collect, explore and understand your game performance — all in one private workspace.
+Nami is a desktop app for game developers. Collect, explore and understand your game performance — all in one workspace.
+
+**Supported platforms:** [Yandex Games](https://games.yandex.ru/)
 
 <br />
 
@@ -26,6 +28,6 @@ Nami is a desktop analytics platform for Yandex Games developers. Collect, explo
   <img src="assets/readme/hero-placeholder.svg" width="100%" alt="Nami: main dashboard" />
 </p>
 
-Nami collects your Yandex Games console data with a Chrome extension and stores it in a local SQLite database. Revenue, players, metrics and game comparisons stay on your computer.
+Nami collects console data for supported platforms with a Chrome extension and stores it in a local SQLite database. Revenue, players, metrics and game comparisons stay on your computer.
 
 The product documentation, installation guide and release notes are in Russian: see [README](README.md).
