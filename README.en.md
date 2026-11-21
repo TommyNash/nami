@@ -51,5 +51,5 @@ The product documentation, installation guide and release notes are in Russian: 
 </p>
 
 <p align="center">
-  Nami is supported by Founders Kit · <a href="https://kit.founders-universe.com">https://kit.founders-universe.com</a>
+  <a href="https://kit.founders-universe.com"><b>Founders Kit</b></a> · <a href="https://kit.founders-universe.com">https://kit.founders-universe.com</a>
 </p>
