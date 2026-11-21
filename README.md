@@ -25,13 +25,16 @@ Nami — настольное приложение для разработчик
 <br />
 
 <p align="center">
-  <img src="assets/readme/hero-placeholder.svg" width="100%" alt="Nami: главный экран" />
+  <img src="assets/readme/hero-placeholder.png" width="100%" alt="Nami: главный экран" />
 </p>
 
 <table>
   <tr>
-    <td width="50%"><img src="assets/readme/shot-games-placeholder.svg" alt="Nami: таблица игр" /></td>
-    <td width="50%"><img src="assets/readme/shot-collector-placeholder.svg" alt="Попап Nami Collector" /></td>
+    <td width="50%"><img src="assets/readme/shot-games-placeholder.png" alt="Nami: таблица игр" /></td>
+    <td width="50%"><img src="assets/readme/shot-collector-placeholder.png" alt="Попап Nami Collector" /></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><img src="assets/readme/shot-compare-placeholder.png" alt="Nami: сравнение игр" /></td>
   </tr>
 </table>
 

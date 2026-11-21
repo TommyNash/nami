@@ -25,8 +25,18 @@ Nami is a desktop app for game developers. Collect, explore and understand your 
 <br />
 
 <p align="center">
-  <img src="assets/readme/hero-placeholder.svg" width="100%" alt="Nami: main dashboard" />
+  <img src="assets/readme/hero-placeholder.png" width="100%" alt="Nami: main dashboard" />
 </p>
+
+<table>
+  <tr>
+    <td width="50%"><img src="assets/readme/shot-games-placeholder.png" alt="Nami: games table" /></td>
+    <td width="50%"><img src="assets/readme/shot-collector-placeholder.png" alt="Nami Collector popup" /></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><img src="assets/readme/shot-compare-placeholder.png" alt="Nami: game comparison" /></td>
+  </tr>
+</table>
 
 Nami collects console data for supported platforms with a Chrome extension and stores it in a local SQLite database. Revenue, players, metrics and game comparisons stay on your computer.
 
