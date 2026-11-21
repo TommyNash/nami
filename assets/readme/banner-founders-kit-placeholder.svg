@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="400" viewBox="0 0 1600 400" font-family="-apple-system, 'Segoe UI', Inter, Helvetica, Arial, sans-serif">
-  <rect width="1600" height="400" rx="28" fill="#eef1f5"/>
-  <rect x="40" y="40" width="1520" height="320" rx="22" fill="#ffffff" stroke="#c9d6f7" stroke-width="2" stroke-dasharray="10 8"/>
-  <text x="800" y="185" text-anchor="middle" font-size="34" font-weight="650" fill="#2f6fed">Баннер: Nami выходит при поддержке Founders Kit (заглушка)</text>
-  <text x="800" y="225" text-anchor="middle" font-size="20" fill="#6b7384">Замените на PNG 1600×400, того же имени</text>
-</svg>

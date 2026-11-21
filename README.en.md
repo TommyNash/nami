@@ -41,3 +41,15 @@ Nami is a desktop app for game developers. Collect, explore and understand your 
 Nami collects console data for supported platforms with a Chrome extension and stores it in a local SQLite database. Revenue, players, metrics and game comparisons stay on your computer.
 
 The product documentation, installation guide and release notes are in Russian: see [README](README.md).
+
+<br />
+
+<p align="center">
+  <a href="https://kit.founders-universe.com">
+    <img src="assets/readme/banner-founders-kit-placeholder-en.png" width="100%" alt="Nami is supported by Founders Kit" />
+  </a>
+</p>
+
+<p align="center">
+  Nami is supported by Founders Kit · <a href="https://kit.founders-universe.com">https://kit.founders-universe.com</a>
+</p>

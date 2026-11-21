@@ -147,11 +147,11 @@ Nami распространяется по лицензии [PolyForm Noncommerc
 <br />
 
 <p align="center">
-  <a href="https://kit.founders-universe.com/">
-    <img src="assets/readme/banner-founders-kit-placeholder.svg" width="100%" alt="Nami выходит при поддержке Founders Kit" />
+  <a href="https://kit.founders-universe.com">
+    <img src="assets/readme/banner-founders-kit-placeholder-ru.png" width="100%" alt="Nami выходит при поддержке Founders Kit" />
   </a>
 </p>
 
 <p align="center">
-  Nami выходит при поддержке <a href="https://kit.founders-universe.com/"><b>Founders Kit</b></a>.
+  Nami выходит при поддержке Founders Kit · <a href="https://kit.founders-universe.com">https://kit.founders-universe.com</a>
 </p>
