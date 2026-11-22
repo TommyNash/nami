@@ -767,6 +767,20 @@
       const status = Number(last.status);
       const isAuth = AUTH_STATUSES.has(status);
       if (isAuth) {
+        // Layout/диагностика (application-metrics, in-app/layout): Яндекс иногда
+        // отдаёт 403, хотя панель и metrics-engine живы. Не валим всю сессию.
+        if (job.optional) {
+          reportProgress({
+            running: true,
+            label: `Пропуск · HTTP ${status}`,
+            detail: `${job.pathname} (необязательный запрос)`,
+            etaMs: 0,
+            phase: 'retry',
+            gameId: job.gameId || null
+          });
+          break;
+        }
+
         // 403 на POST почти всегда значит «протух CSRF», а не «сессия мертва»:
         // сначала пробуем свежий токен, и только потом считаем сессию мёртвой.
         const csrfRetry = job.method === 'POST' && !job._csrfTried && status === 403;
@@ -830,6 +844,10 @@
 
     quality.fail += 1;
     bumpPaceOnSoftFail(last.status);
+    // Необязательные ручки с 401/403 не кладём в replay — они снова упадут.
+    if (job.optional && AUTH_STATUSES.has(Number(last.status))) {
+      return last;
+    }
     pushFailure({
       method: job.method || 'GET',
       pathname: job.pathname,
@@ -850,7 +868,8 @@
       search: search || '',
       source,
       gameId: meta.gameId || null,
-      label: meta.label || pathname
+      label: meta.label || pathname,
+      optional: Boolean(meta.optional)
     };
     const result = await requestWithRetry(job, async () => {
       const { res, body, aborted } = await fetchJson(`${pathname}${search || ''}`);
@@ -1165,12 +1184,13 @@
     });
     if (abort || authBlocked) return { id, grade: 'abort' };
 
-    // Layout метрик (категории кабинета) — для полноты raw/диагностики
+    // Layout метрик — только диагностика, в SQLite не пишется.
+    // 403 здесь не должен останавливать сбор (Яндекс иногда закрывает ручку).
     await collectAndBridge(
       '/console/api/application-metrics',
       `?game_id=${encodeURIComponent(id)}&lang=ru`,
       'auto-metrics-layout',
-      { gameId: id, label: `metrics-layout ${id}` }
+      { gameId: id, label: `metrics-layout ${id}`, optional: true }
     );
     if (abort || authBlocked) return { id, grade: 'abort' };
 
@@ -1231,7 +1251,7 @@
       '/console/api/metrics-engine/in-app/layout',
       `?game_id=${encodeURIComponent(id)}&lang=ru`,
       'auto-inapp-layout',
-      { gameId: id, label: `inapp-layout ${id}` }
+      { gameId: id, label: `inapp-layout ${id}`, optional: true }
     );
 
     const inSlices = monthSlices(range.from, range.to);
