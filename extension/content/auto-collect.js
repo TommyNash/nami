@@ -651,10 +651,6 @@
     }
   }
 
-  /**
-   * CSRF-токен кабинета. Без него POST метрик отдаёт 403, хотя GET работает.
-   * Кэшируем на 15 минут; при 403 на POST запрашиваем заново.
-   */
   async function ensureCsrf(force = false) {
     const fresh = csrfToken && Date.now() - csrfFetchedAt < CSRF_TTL_MS;
     if (fresh && !force) return csrfToken;
@@ -678,8 +674,6 @@
     }
   }
 
-  // Если токен не пришёл — POST-запросы будут 403. Сообщаем один раз,
-  // чтобы не искать причину вслепую.
   let csrfWarned = false;
   async function ensureCsrfOrWarn(force) {
     const token = await ensureCsrf(force);
@@ -767,13 +761,11 @@
       const status = Number(last.status);
       const isAuth = AUTH_STATUSES.has(status);
       if (isAuth) {
-        // Layout/диагностика (application-metrics, in-app/layout): Яндекс иногда
-        // отдаёт 403, хотя панель и metrics-engine живы. Не валим всю сессию.
         if (job.optional) {
           reportProgress({
             running: true,
             label: `Пропуск · HTTP ${status}`,
-            detail: `${job.pathname} (необязательный запрос)`,
+            detail: job.pathname,
             etaMs: 0,
             phase: 'retry',
             gameId: job.gameId || null
@@ -781,8 +773,7 @@
           break;
         }
 
-        // 403 на POST почти всегда значит «протух CSRF», а не «сессия мертва»:
-        // сначала пробуем свежий токен, и только потом считаем сессию мёртвой.
+        // 403 на POST — сначала обновляем CSRF, потом считаем сессию мёртвой.
         const csrfRetry = job.method === 'POST' && !job._csrfTried && status === 403;
         if (csrfRetry) {
           csrfToken = null;
@@ -844,7 +835,6 @@
 
     quality.fail += 1;
     bumpPaceOnSoftFail(last.status);
-    // Необязательные ручки с 401/403 не кладём в replay — они снова упадут.
     if (job.optional && AUTH_STATUSES.has(Number(last.status))) {
       return last;
     }
@@ -892,14 +882,10 @@
       label: meta.label || `${pathname} · ${payload.slug || ''}`
     };
     const result = await requestWithRetry(job, async () => {
-      // Без CSRF-токена POST всегда 403 — берём его перед каждым запросом
-      // (из кэша 15 минут, поэтому лишних обращений нет).
       const token = await ensureCsrfOrWarn(Boolean(job._csrfForced));
       job._csrfForced = false;
       const headers = { 'content-type': 'application/json', accept: 'application/json' };
       if (token) {
-        // Яндекс ждёт токен в заголовке; шлём оба распространённых имени,
-        // лишний заголовок сервер игнорирует.
         headers['x-csrf-token'] = token;
         headers['csrf-token'] = token;
       }
@@ -1184,8 +1170,6 @@
     });
     if (abort || authBlocked) return { id, grade: 'abort' };
 
-    // Layout метрик — только диагностика, в SQLite не пишется.
-    // 403 здесь не должен останавливать сбор (Яндекс иногда закрывает ручку).
     await collectAndBridge(
       '/console/api/application-metrics',
       `?game_id=${encodeURIComponent(id)}&lang=ru`,
