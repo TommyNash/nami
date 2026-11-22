@@ -3,7 +3,7 @@ import vm from 'node:vm';
 import { describe, expect, it } from 'vitest';
 
 function load(file) {
-  const ctx = { Map, Number, String, Date, Math };
+  const ctx = { Map, Number, String, Date, Math, window: {} };
   vm.createContext(ctx);
   vm.runInContext(readFileSync(new URL(file, import.meta.url), 'utf8'), ctx);
   return ctx;

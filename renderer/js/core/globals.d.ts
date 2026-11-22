@@ -3,4 +3,5 @@ interface Window {
   NamiServices: any;
   NamiStore: any;
   NamiLifecycle: any;
+  NamiData: any;
 }

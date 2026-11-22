@@ -308,7 +308,7 @@
     !/^m:\d{4}-\d{2}$/.test(String(state.period || '')) &&
     !/^r:\d{4}-\d{2}-\d{2}:\d{4}-\d{2}-\d{2}$/.test(String(state.period || ''))
   ) {
-    state.period = 'month';
+    window.NamiStore.setPeriod('month');
   }
 
   // «Квартал» убрали из переключателя — старое сохранённое значение переносим на «Год»

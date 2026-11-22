@@ -1,4 +1,4 @@
-var WS_SERIES = {
+const WS_SERIES = {
   ads: 'purchase_amount: Реклама', // i18n-ignore
   inapp: 'purchase_amount: Инап-покупки', // i18n-ignore
   players: 'players: Всего', // i18n-ignore
@@ -8,8 +8,9 @@ var WS_SERIES = {
   ratingRu: 'rating: Россия и СНГ', // i18n-ignore
   ratingWorld: 'rating: Остальной мир' // i18n-ignore
 };
-var WS_READY_ENDS = ['p50', 'p95', 'Запросы']; // i18n-ignore
-var WS_REVENUE_ENDS = ['Реклама', 'Инап-покупки']; // i18n-ignore
+const WS_READY_ENDS = ['p50', 'p95', 'Запросы']; // i18n-ignore
+const WS_REVENUE_ENDS = ['Реклама', 'Инап-покупки']; // i18n-ignore
+window.NamiData = Object.assign(window.NamiData || {}, { WS_SERIES, WS_READY_ENDS, WS_REVENUE_ENDS });
 
 function platformLabel(name) {
   const s = String(name || '');

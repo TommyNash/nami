@@ -40,8 +40,8 @@ window.FoundersPages = {
     data.accounts = accounts;
     data.activeAccount = activeAccount;
     data.activeAccountId = accountId || null;
+    window.NamiStore.setActiveAccount(accountId);
     if (window.FoundersApp && window.FoundersApp.state) {
-      window.FoundersApp.state.activeAccountId = accountId || null;
       window.FoundersApp.state.accounts = accounts;
     }
     const model = await loadGamesModel(period, heatCompare, {

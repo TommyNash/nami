@@ -329,7 +329,8 @@ const heatMountCache = {
 
 // Кэш DOM-узла панели «Доход по месяцам»: график не зависит от периода,
 // поэтому при смене периода переиспользуем его без перерисовки.
-var earnPanelCache = { sig: null, node: null };
+const earnPanelCache = { sig: null, node: null };
+window.NamiData = Object.assign(window.NamiData || {}, { earnPanelCache });
 
 /* —— Единый слой данных страницы «Игры» ——
    Всё, что нужно экрану, грузится одним запросом на пару

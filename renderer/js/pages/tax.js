@@ -1,4 +1,5 @@
 async function renderTaxPage(root, data) {
+    window.NamiLifecycle.destroy('tax');
     const aid = activeAccountIdFrom(data) || null;
     let sheet = { rate: 6, shift: 1, rows: [], stats: {} };
     try {
@@ -146,6 +147,10 @@ async function renderTaxPage(root, data) {
     };
 
     let taxChartTimer = null;
+    window.NamiLifecycle.on('tax', () => {
+      if (taxChartTimer) clearTimeout(taxChartTimer);
+      taxChartTimer = null;
+    });
     const scheduleTaxCharts = () => {
       if (taxChartTimer) clearTimeout(taxChartTimer);
       taxChartTimer = setTimeout(() => {
@@ -306,7 +311,6 @@ async function renderTaxPage(root, data) {
           setSettingsOpen(false);
         }
       };
-      window.NamiLifecycle.destroy('tax');
       window.NamiLifecycle.listen('tax', document, 'click', onDocClose);
     }
 

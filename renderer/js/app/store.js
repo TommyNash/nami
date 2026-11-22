@@ -93,7 +93,7 @@ const NamiStore = (() => {
     save('fa.page', 'games');
   }
 
-  return {
+  const api = {
     state,
     setPage(page) {
       state.page = page;
@@ -189,5 +189,34 @@ const NamiStore = (() => {
       }
     }
   };
+  const persist = {
+    page: (value) => api.setPage(value),
+    period: (value) => api.setPeriod(value),
+    workspaceTab: (value) => api.setWorkspaceTab(value),
+    selectedGameId: (value) => api.setSelectedGame(value),
+    compareIds: (value) => api.setCompareIds(Array.isArray(value) ? value : []),
+    audienceTab: (value) => api.setAudienceTab(value),
+    metricsSection: (value) => api.setMetricsSection(value),
+    gamesPublishedOnly: (value) => api.setPublishedOnly(value),
+    workspaceLayer: (value) => api.setWorkspaceLayer(value),
+    heatMetric: (value) => api.setHeatMetric(value),
+    heatCompare: (value) => api.setHeatCompare(value),
+    gamesPlayersMode: (value) => api.setGamesPlayersMode(value),
+    gamesShareMetric: (value) => api.setGamesShareMetric(value),
+    gamesDynamicsMetric: (value) => api.setGamesDynamicsMetric(value),
+    activeAccountId: (value) => api.setActiveAccount(value)
+  };
+  api.state = new Proxy(state, {
+    set(target, key, value) {
+      const write = persist[key];
+      if (write) {
+        write(value);
+        return true;
+      }
+      target[key] = value;
+      return true;
+    }
+  });
+  return api;
 })();
 window.NamiStore = NamiStore;

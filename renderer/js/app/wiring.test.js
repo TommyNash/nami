@@ -55,10 +55,10 @@ const files = [
 describe('склейка скриптов', () => {
   it('общие значения видны соседним файлам, графики собраны', () => {
     for (const file of files) run(file);
-    expect(ctx.gamesModelCache).toBeInstanceOf(Map);
-    expect(ctx.WS_SERIES.players).toBeTruthy();
-    expect(ctx.EXTRA_CHARTS).toBeTruthy();
-    expect(ctx.COMPARE_COLORS.length).toBeGreaterThan(2);
+    expect(ctx.NamiData.gamesModelCache).toBeInstanceOf(Map);
+    expect(ctx.NamiData.WS_SERIES.players).toBeTruthy();
+    expect(ctx.NamiData.EXTRA_CHARTS).toBeTruthy();
+    expect(ctx.NamiData.COMPARE_COLORS.length).toBeGreaterThan(2);
     expect(typeof ctx.window.FoundersCharts.line).toBe('function');
     expect(typeof ctx.window.FoundersCharts.hourBars).toBe('function');
     expect(typeof ctx.window.FoundersCharts.donut).toBe('function');
@@ -74,6 +74,11 @@ describe('склейка скриптов', () => {
     expect(ctx.window.NamiStore.compareExpand().audience).toBe(false);
     ctx.window.NamiStore.markWorkspaceNavSeen();
     expect(ctx.window.NamiStore.workspaceNavSeen()).toBe(true);
+    ctx.window.NamiStore.state.period = 'week';
+    expect(ctx.window.NamiStore.state.period).toBe('week');
+    expect(localStorage.getItem('fa.period')).toBe('week');
+    ctx.window.NamiStore.state.gamesQuery = 'abc';
+    expect(localStorage.getItem('fa.gamesQuery')).toBe(null);
   });
 
   it('слушатель страницы снимается при уходе', () => {

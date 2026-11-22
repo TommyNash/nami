@@ -1,7 +1,12 @@
 // @ts-check
-var gamesModelCache = new Map();
-var gamesModelInflight = new Map();
-var GAMES_MODEL_CACHE_LIMIT = 4;
+const gamesModelCache = new Map();
+const gamesModelInflight = new Map();
+const GAMES_MODEL_CACHE_LIMIT = 4;
+window.NamiData = Object.assign(window.NamiData || {}, {
+  gamesModelCache,
+  gamesModelInflight,
+  GAMES_MODEL_CACHE_LIMIT
+});
 
 function screenCacheKey(period, heatCompare, accountId) {
   return `${period}|${heatCompare}|${accountId || ''}`;

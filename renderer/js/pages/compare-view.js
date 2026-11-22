@@ -1,6 +1,7 @@
 /* Сравнение игр ----------------------------------------------------------- */
 
-var COMPARE_COLORS = ['#3dd68c', '#a78bfa', '#f0a45d', '#5b8def', '#f472b6', '#38bdf8', '#fbbf24', '#c084fc'];
+const COMPARE_COLORS = ['#3dd68c', '#a78bfa', '#f0a45d', '#5b8def', '#f472b6', '#38bdf8', '#fbbf24', '#c084fc'];
+window.NamiData = Object.assign(window.NamiData || {}, { COMPARE_COLORS });
 
 function compareGameIconHtml(game, color) {
   const title = game.title || game.id || '';

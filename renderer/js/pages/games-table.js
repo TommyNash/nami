@@ -451,9 +451,6 @@ function bindAccountChip(root, data) {
       closeAccountPop(root);
       if (!nextId || nextId === cur) return;
       writeStoredAccountId(nextId);
-      if (window.FoundersApp && window.FoundersApp.state) {
-        window.FoundersApp.state.activeAccountId = nextId;
-      }
       invalidateGamesModels();
       if (window.FoundersApp && typeof window.FoundersApp.loading === 'function') {
         window.FoundersApp.loading(true);

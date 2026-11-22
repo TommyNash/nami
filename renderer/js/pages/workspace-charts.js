@@ -41,13 +41,14 @@ function paintMetricChart(el, seriesRaw, chart, chartOpts) {
   if (opts.export) placeChartExport(el, opts.export);
 }
 
-var EXTRA_CHARTS = {
+const EXTRA_CHARTS = {
   // game-ready уже в базовом графике раздела Ready
   ready: ['tti'],
   // revenue-ads / revenue-inapp уже в базовом графике раздела
   revenue: ['arpdau', 'paying', 'arppu', 'inapp-count', 'ads-impr'],
   conversion: ['ctr-my', 'ctr-wo', 'ctr-cover', 'ctp', 'playtime-conv']
-}
+};
+window.NamiData = Object.assign(window.NamiData || {}, { EXTRA_CHARTS });
 
 function chartsByIds(ids) {
   const all = METRIC_SECTIONS.flatMap((s) => s.charts);

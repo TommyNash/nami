@@ -288,7 +288,7 @@ function writeStoredAccountId(id) {
   window.NamiStore.setActiveAccount(id);
 }
 
-var accountsCache = null;
+let accountsCache = null;
 
 async function loadAccounts() {
   if (accountsCache) return accountsCache;
@@ -432,7 +432,7 @@ function seriesLabel(name) {
 }
 
 /** Разделы как в кабинете: Продуктовые / Монетизация / CTR / Технические */
-var METRIC_SECTIONS = [
+const METRIC_SECTIONS = [
   {
     id: 'product',
     title: T('shared.metrics.sections.product'),
@@ -561,7 +561,7 @@ var METRIC_SECTIONS = [
   }
 ];
 
-var KNOWN_METRIC_PREFIXES = [
+const KNOWN_METRIC_PREFIXES = [
   'players',
   'rating',
   'play_time',
@@ -582,6 +582,7 @@ var KNOWN_METRIC_PREFIXES = [
   'game_ready_api',
   'time_to_interactive'
 ];
+window.NamiData = Object.assign(window.NamiData || {}, { METRIC_SECTIONS, KNOWN_METRIC_PREFIXES });
 
 function buildAttention(games, periodEarnSum) {
   const items = [];
