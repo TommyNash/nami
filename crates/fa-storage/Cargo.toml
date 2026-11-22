@@ -1,6 +1,6 @@
 [package]
 name = "fa-storage"
-version = "0.2.3"
+version = "0.2.2"
 edition = "2021"
 publish = false
 

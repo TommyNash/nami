@@ -1,6 +1,6 @@
 [package]
 name = "nami"
-version = "0.2.3"
+version = "0.2.2"
 description = "Nami — desktop analytics for Yandex Games console"
 authors = ["Founders Games"]
 edition = "2021"
