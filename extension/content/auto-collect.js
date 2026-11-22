@@ -61,6 +61,7 @@
   // Сколько 401/403 подряд: после AUTH_STREAK_LIMIT считаем сессию мёртвой.
   let authStreak = 0;
   let authBlocked = false;
+  let metricsDown = false;
   let lastBeatAt = 0;
   let stallRecovering = false;
   let activeFetchAbort = null;
@@ -708,6 +709,42 @@
     }
   }
 
+  function bodyText(body) {
+    if (body == null) return '';
+    if (typeof body === 'string') return body;
+    try {
+      return JSON.stringify(body);
+    } catch (_) {
+      return '';
+    }
+  }
+
+  function isMaintenance(body) {
+    return /техническ\w*\s+работ|приходите позднее|technical\s+works?|under\s+maintenance/i.test(
+      bodyText(body)
+    );
+  }
+
+  function isMetricsApi(pathname) {
+    return (
+      pathname === '/console/api/application-metrics' ||
+      String(pathname || '').indexOf('/console/api/metrics-engine/') === 0
+    );
+  }
+
+  function noteMetricsDown(job, status) {
+    metricsDown = true;
+    reportProgress({
+      running: true,
+      label: 'Метрики недоступны',
+      detail: 'техработы в консоли · собираю остальное',
+      etaMs: 0,
+      phase: 'retry',
+      gameId: job.gameId || null
+    });
+    noteStatus(status || 'maint');
+  }
+
   function easePaceOnSuccess() {
     consecutiveSoftFails = 0;
     // Ускоряемся быстрее, чем замедлялись: иначе после одного 403
@@ -793,6 +830,16 @@
           continue;
         }
 
+        // Техработы / metrics-engine при живой сессии — не рвём весь сбор.
+        const sessionAlive = quality.ok > 0;
+        if (
+          isMaintenance(last.body) ||
+          (isMetricsApi(job.pathname) && sessionAlive && (job.method !== 'POST' || job._csrfTried))
+        ) {
+          noteMetricsDown(job, status);
+          break;
+        }
+
         authStreak += 1;
         bumpPaceOnSoftFail(status);
         if (attempt >= 2 || authStreak >= AUTH_STREAK_LIMIT) {
@@ -835,7 +882,10 @@
 
     quality.fail += 1;
     bumpPaceOnSoftFail(last.status);
-    if (job.optional && AUTH_STATUSES.has(Number(last.status))) {
+    if (
+      (job.optional || metricsDown || isMaintenance(last.body)) &&
+      AUTH_STATUSES.has(Number(last.status))
+    ) {
       return last;
     }
     pushFailure({
@@ -1179,91 +1229,95 @@
     if (abort || authBlocked) return { id, grade: 'abort' };
 
     let metricsOk = 0;
-    for (let si = 0; si < METRIC_SLUGS.length; si += 1) {
-      if (abort || authBlocked) break;
-      const slug = METRIC_SLUGS[si];
-      reportProgress({
-        running: true,
-        step,
-        total: totalSteps,
-        label: `Игра ${index + 1}/${totalGames}: ${title}`,
-        detail: `метрика ${si + 1}/${METRIC_SLUGS.length}: ${slug}`,
-        etaMs: (totalSteps - step) * Math.max(GAME_DELAY_MS, paceMs, delayMs),
-        phase: 'game-metrics',
-        gameId: id
-      });
-      const slices = monthSlices(range.from, range.to);
-      let slugOk = false;
-      for (let mi = 0; mi < slices.length; mi += 1) {
-        if (abort || authBlocked) break;
-        const slice = slices[mi];
-        if (slices.length > 1) {
-          reportProgress({
-            running: true,
-            step,
-            total: totalSteps,
-            label: `Игра ${index + 1}/${totalGames}: ${title}`,
-            detail: `метрика ${slug} ${slice.from.slice(0, 7)} (${mi + 1}/${slices.length})`,
-            etaMs: (totalSteps - step) * Math.max(GAME_DELAY_MS, paceMs, delayMs),
-            phase: 'game-metrics',
-            gameId: id
-          });
+    if (!metricsDown) {
+      for (let si = 0; si < METRIC_SLUGS.length; si += 1) {
+        if (abort || authBlocked || metricsDown) break;
+        const slug = METRIC_SLUGS[si];
+        reportProgress({
+          running: true,
+          step,
+          total: totalSteps,
+          label: `Игра ${index + 1}/${totalGames}: ${title}`,
+          detail: `метрика ${si + 1}/${METRIC_SLUGS.length}: ${slug}`,
+          etaMs: (totalSteps - step) * Math.max(GAME_DELAY_MS, paceMs, delayMs),
+          phase: 'game-metrics',
+          gameId: id
+        });
+        const slices = monthSlices(range.from, range.to);
+        let slugOk = false;
+        for (let mi = 0; mi < slices.length; mi += 1) {
+          if (abort || authBlocked || metricsDown) break;
+          const slice = slices[mi];
+          if (slices.length > 1) {
+            reportProgress({
+              running: true,
+              step,
+              total: totalSteps,
+              label: `Игра ${index + 1}/${totalGames}: ${title}`,
+              detail: `метрика ${slug} ${slice.from.slice(0, 7)} (${mi + 1}/${slices.length})`,
+              etaMs: (totalSteps - step) * Math.max(GAME_DELAY_MS, paceMs, delayMs),
+              phase: 'game-metrics',
+              gameId: id
+            });
+          }
+          const r = await postAndBridge(
+            '/console/api/metrics-engine/analytics/data',
+            {
+              slug,
+              game_id: id,
+              lang: 'ru',
+              mobile_slice: mobile,
+              country_slice: '__total__',
+              date_range: [slice.from, slice.to]
+            },
+            'auto-analytics',
+            { gameId: id, label: `analytics ${slug} ${slice.from}` }
+          );
+          if (r.ok) slugOk = true;
+          await sleep(Math.max(260, Math.floor(paceMs * 0.28)));
         }
-        const r = await postAndBridge(
-          '/console/api/metrics-engine/analytics/data',
-          {
-            slug,
-            game_id: id,
-            lang: 'ru',
-            mobile_slice: mobile,
-            country_slice: '__total__',
-            date_range: [slice.from, slice.to]
-          },
-          'auto-analytics',
-          { gameId: id, label: `analytics ${slug} ${slice.from}` }
-        );
-        if (r.ok) slugOk = true;
-        await sleep(Math.max(260, Math.floor(paceMs * 0.28)));
+        if (slugOk) metricsOk += 1;
       }
-      if (slugOk) metricsOk += 1;
     }
     if (abort || authBlocked) return { id, grade: 'abort' };
     stageDone('games');
 
     announce('purchases', 'инапы');
-    await collectAndBridge(
-      '/console/api/metrics-engine/in-app/layout',
-      `?game_id=${encodeURIComponent(id)}&lang=ru`,
-      'auto-inapp-layout',
-      { gameId: id, label: `inapp-layout ${id}`, optional: true }
-    );
-
-    const inSlices = monthSlices(range.from, range.to);
     let inappOk = 0;
-    for (const slug of INAPP_SLUGS) {
-      if (abort || authBlocked) break;
-      let slugOk = false;
-      for (const slice of inSlices) {
-        if (abort || authBlocked) break;
-        const r = await postAndBridge(
-          '/console/api/metrics-engine/in-app/data',
-          {
-            slug,
-            game_id: id,
-            lang: 'ru',
-            block: 'in-app',
-            date_range: [slice.from.replace(/-/g, ''), slice.to.replace(/-/g, '')],
-            mobile_slice: mobile,
-            country_slice: '__total__',
-            sku_slice: '__total__'
-          },
-          'auto-inapp',
-          { gameId: id, label: `inapp ${slug} ${slice.from}` }
-        );
-        if (r.ok) slugOk = true;
-        await sleep(Math.max(230, Math.floor(paceMs * 0.25)));
+    if (!metricsDown) {
+      await collectAndBridge(
+        '/console/api/metrics-engine/in-app/layout',
+        `?game_id=${encodeURIComponent(id)}&lang=ru`,
+        'auto-inapp-layout',
+        { gameId: id, label: `inapp-layout ${id}`, optional: true }
+      );
+
+      const inSlices = monthSlices(range.from, range.to);
+      for (const slug of INAPP_SLUGS) {
+        if (abort || authBlocked || metricsDown) break;
+        let slugOk = false;
+        for (const slice of inSlices) {
+          if (abort || authBlocked || metricsDown) break;
+          const r = await postAndBridge(
+            '/console/api/metrics-engine/in-app/data',
+            {
+              slug,
+              game_id: id,
+              lang: 'ru',
+              block: 'in-app',
+              date_range: [slice.from.replace(/-/g, ''), slice.to.replace(/-/g, '')],
+              mobile_slice: mobile,
+              country_slice: '__total__',
+              sku_slice: '__total__'
+            },
+            'auto-inapp',
+            { gameId: id, label: `inapp ${slug} ${slice.from}` }
+          );
+          if (r.ok) slugOk = true;
+          await sleep(Math.max(230, Math.floor(paceMs * 0.25)));
+        }
+        if (slugOk) inappOk += 1;
       }
-      if (slugOk) inappOk += 1;
     }
     if (abort || authBlocked) return { id, grade: 'abort' };
 
@@ -1290,8 +1344,16 @@
 
     const failsAfter = quality.fail - failsBefore;
     let grade = 'ok';
-    if (!criticalOk || metricsOk === 0) grade = 'fail';
-    else if (failsAfter > 0 || metricsOk < METRIC_SLUGS.length || inappOk < INAPP_SLUGS.length) grade = 'partial';
+    if (!criticalOk) grade = 'fail';
+    else if (metricsOk === 0 && !metricsDown) grade = 'fail';
+    else if (
+      metricsDown ||
+      failsAfter > 0 ||
+      metricsOk < METRIC_SLUGS.length ||
+      inappOk < INAPP_SLUGS.length
+    ) {
+      grade = 'partial';
+    }
 
     if (grade === 'ok') quality.gamesOk += 1;
     else if (grade === 'partial') quality.gamesPartial += 1;
@@ -1310,6 +1372,7 @@
     abort = false;
     authBlocked = false;
     authStreak = 0;
+    metricsDown = false;
     stallRecovering = false;
     startedAt = Date.now();
     touchBeat();
