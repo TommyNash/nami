@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true,
+    "target": "ES2020",
+    "module": "ESNext",
+    "lib": ["ES2020", "DOM"],
+    "strict": false,
+    "skipLibCheck": true
+  },
+  "include": [
+    "renderer/js/model/days.js",
+    "renderer/js/model/portfolio.js",
+    "renderer/js/model/compare-math.js",
+    "renderer/js/model/screen-cache.js",
+    "renderer/js/app/store.js",
+    "renderer/js/app/lifecycle.js",
+    "renderer/js/core/services.js",
+    "renderer/js/core/ipc-contract.js",
+    "renderer/js/core/globals.d.ts",
+    "renderer/js/ui/dom.js",
+    "renderer/js/ui/kpi.js"
+  ]
+}

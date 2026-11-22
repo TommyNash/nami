@@ -265,16 +265,9 @@ function openTaxPage() {
   }
   const app = window.FoundersApp;
   if (!app || !app.state) return;
-  app.state.page = 'tax';
-  try {
-    localStorage.setItem('fa.page', 'tax');
-  } catch (_) {
-    /* ignore */
-  }
+  window.NamiStore.setPage('tax');
   if (typeof app.render === 'function') app.render({ skeleton: true }).catch(() => {});
 }
-
-const ACCOUNT_LS_KEY = 'fa.activeAccountId';
 
 function accountInitials(title) {
   const parts = String(title || '')
@@ -288,31 +281,22 @@ function accountInitials(title) {
 }
 
 function readStoredAccountId() {
-  try {
-    return localStorage.getItem(ACCOUNT_LS_KEY) || '';
-  } catch (_) {
-    return '';
-  }
+  return (window.NamiStore && window.NamiStore.state.activeAccountId) || '';
 }
 
 function writeStoredAccountId(id) {
-  try {
-    if (id) localStorage.setItem(ACCOUNT_LS_KEY, String(id));
-    else localStorage.removeItem(ACCOUNT_LS_KEY);
-  } catch (_) {
-    /* ignore */
-  }
+  window.NamiStore.setActiveAccount(id);
 }
 
-let accountsCache = null;
+var accountsCache = null;
 
 async function loadAccounts() {
   if (accountsCache) return accountsCache;
-  if (!window.foundersApi || typeof window.foundersApi.listAccounts !== 'function') {
+  if (!window.NamiServices || typeof window.NamiServices.portfolio.accounts !== 'function') {
     return [];
   }
   try {
-    const rows = await window.foundersApi.listAccounts();
+    const rows = await window.NamiServices.portfolio.accounts();
     accountsCache = Array.isArray(rows) ? rows : [];
     return accountsCache;
   } catch (err) {
@@ -448,7 +432,7 @@ function seriesLabel(name) {
 }
 
 /** Разделы как в кабинете: Продуктовые / Монетизация / CTR / Технические */
-const METRIC_SECTIONS = [
+var METRIC_SECTIONS = [
   {
     id: 'product',
     title: T('shared.metrics.sections.product'),
@@ -577,7 +561,7 @@ const METRIC_SECTIONS = [
   }
 ];
 
-const KNOWN_METRIC_PREFIXES = [
+var KNOWN_METRIC_PREFIXES = [
   'players',
   'rating',
   'play_time',

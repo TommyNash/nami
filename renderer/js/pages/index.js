@@ -332,7 +332,7 @@ window.FoundersPages = {
       months = cached.months;
     } else {
       [a, months] = await Promise.all([
-      window.foundersApi.analyticsOverview(period, aid),
+      window.NamiServices.portfolio.overview(period, aid),
       earnMonthsCached(aid)
     ]);
     }
@@ -410,13 +410,13 @@ window.FoundersPages = {
     const tab = data.workspaceTab || 'overview';
     const period = data.period || 'month';
     const [details, months] = await Promise.all([
-      window.foundersApi.analyticsGame(id, period),
+      window.NamiServices.game.details(id, period),
       earnMonthsCached()
     ]);
     for (const nextPeriod of ['day', 'week', 'month', 'year', 'all']) {
       if (nextPeriod !== period && typeof scheduleIdleTask === 'function') {
         const gameId = id;
-        scheduleIdleTask(() => window.foundersApi.analyticsGame(gameId, nextPeriod));
+        scheduleIdleTask(() => window.NamiServices.game.details(gameId, nextPeriod));
       }
     }
     if (!details) {
@@ -426,8 +426,7 @@ window.FoundersPages = {
           <div style="margin-top:12px"><button class="btn" id="backGames">${T('pages.workspace.backToGames')}</button></div>
         </div>`;
       document.getElementById('backGames').onclick = () => {
-        window.FoundersApp.state.page = 'games';
-        localStorage.setItem('fa.page', 'games');
+        window.NamiStore.setPage('games');
         window.FoundersApp.refresh();
       };
       return;
@@ -456,14 +455,14 @@ window.FoundersPages = {
     let section = window.FoundersApp.state.workspaceLayer || 'summary';
     if (section === 'metrics') section = 'conversion';
     if (section === 'earnings') section = 'revenue';
-    if (section === 'players' && !localStorage.getItem('fa.workspaceNavV2')) {
+    if (section === 'players' && !window.NamiStore.workspaceNavSeen()) {
       section = 'summary';
       window.FoundersApp.setWorkspaceLayer('summary');
     }
     if (section !== window.FoundersApp.state.workspaceLayer) {
       window.FoundersApp.setWorkspaceLayer(section);
     }
-    localStorage.setItem('fa.workspaceNavV2', '1');
+    window.NamiStore.markWorkspaceNavSeen();
 
     root.innerHTML = `
       <div class="game-report">

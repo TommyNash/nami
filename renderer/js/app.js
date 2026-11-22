@@ -13,65 +13,7 @@
     audience: T('app.titles.game')
   };
 
-  const WORKSPACE_TABS = new Set(['overview', 'metrics', 'earnings', 'purchases', 'audience']);
-
-  const state = {
-    page: localStorage.getItem('fa.page') || 'games',
-    workspaceTab: localStorage.getItem('fa.workspaceTab') || 'overview',
-    period: localStorage.getItem('fa.period') || 'month',
-    info: null,
-    overview: null,
-    collector: null,
-    games: [],
-    selectedGameId: localStorage.getItem('fa.selectedGameId') || null,
-    compareIds: (() => {
-      try {
-        const raw = localStorage.getItem('fa.compareIds');
-        const arr = raw ? JSON.parse(raw) : [];
-        return Array.isArray(arr) ? arr.map(String) : [];
-      } catch (_) {
-        return [];
-      }
-    })(),
-    freshness: { lastUpdatedAt: null, gameUpdatedAt: null },
-    coverage: null,
-    audienceTab: localStorage.getItem('fa.audienceTab') || 'reviews',
-    metricsSection: localStorage.getItem('fa.metricsSection') || 'product',
-    gamesQuery: '',
-    // Тогл «Скрыть неактивные»: показывать только опубликованные игры.
-    // Живёт в localStorage, поэтому сохраняется между запусками приложения.
-    gamesPublishedOnly: localStorage.getItem('fa.publishedOnly') === '1',
-    workspaceLayer: localStorage.getItem('fa.workspaceLayer') || 'players',
-    heatMetric: localStorage.getItem('fa.heatMetric') || 'players',
-    heatCompare: localStorage.getItem('fa.heatCompare') || 'prev_month',
-    // Таблица игр: игроки — среднее/сумма; доля — от игроков или дохода.
-    gamesPlayersMode: localStorage.getItem('fa.gamesPlayersMode') === 'sum' ? 'sum' : 'avg',
-    gamesShareMetric: localStorage.getItem('fa.gamesShareMetric') === 'earn' ? 'earn' : 'players',
-    gamesDynamicsMetric: localStorage.getItem('fa.gamesDynamicsMetric') === 'earn' ? 'earn' : 'players',
-    statusOpen: false,
-    animateNumbers: false,
-    animateHeatmap: false,
-    freezeHeatmap: false,
-    collect: { active: false, blocking: false, lastAt: 0 }
-  };
-
-  if (['game', 'metrics', 'earnings', 'purchases', 'audience', 'reviews', 'geography', 'platforms'].includes(state.page)) {
-    if (state.page !== 'game') {
-      const map = { game: 'overview', reviews: 'audience', geography: 'audience', platforms: 'audience' };
-      state.workspaceTab = map[state.page] || state.page;
-      localStorage.setItem('fa.workspaceTab', state.workspaceTab);
-    }
-    state.page = 'workspace';
-    localStorage.setItem('fa.page', 'workspace');
-  }
-  if (state.page === 'collector') {
-    state.page = 'settings';
-    localStorage.setItem('fa.page', 'settings');
-  }
-  if (state.page === 'overview' || state.page === 'portfolio') {
-    state.page = 'games';
-    localStorage.setItem('fa.page', 'games');
-  }
+  const state = window.NamiStore.state;
 
   function selectedGame() {
     return state.games.find((g) => String(g.id) === String(state.selectedGameId)) || null;
@@ -245,7 +187,7 @@
         e.stopPropagation();
         state.statusOpen = false;
         try {
-          await window.foundersApi.reprocess();
+          await window.NamiServices.app.reprocess();
         } catch (_) {
           /* ignore */
         }
@@ -371,8 +313,7 @@
 
   // «Квартал» убрали из переключателя — старое сохранённое значение переносим на «Год»
   if (state.period === 'quarter') {
-    state.period = 'year';
-    localStorage.setItem('fa.period', 'year');
+    window.NamiStore.setPeriod('year');
   }
 
   function periodAppliesToTab(tab) {
@@ -394,10 +335,10 @@
     const heatCompare = state.heatCompare || 'prev_month';
 
     const [info, overview, collector, freshness] = await Promise.all([
-      window.foundersApi.getInfo(),
-      window.foundersApi.getOverview(),
-      window.foundersApi.getCollector(),
-      window.foundersApi.getFreshness(state.selectedGameId || null)
+      window.NamiServices.app.info(),
+      window.NamiServices.app.overview(),
+      window.NamiServices.app.collector(),
+      window.NamiServices.app.freshness(state.selectedGameId || null)
     ]);
 
     // Игры/месяцы/аналитика/карта — из общего кэша модели:
@@ -485,8 +426,7 @@
     const btn = document.getElementById('chromeBackBtn');
     if (btn) {
       btn.onclick = () => {
-        state.page = 'games';
-        localStorage.setItem('fa.page', 'games');
+        window.NamiStore.setPage('games');
         render({ skeleton: true });
       };
     }
@@ -540,15 +480,15 @@
     const root = document.getElementById('pageRoot');
 
     if (state.page === 'workspace' && !state.selectedGameId) {
-      state.page = 'games';
-      localStorage.setItem('fa.page', 'games');
+      window.NamiStore.setPage('games');
     }
 
     const pageKey = state.page === 'workspace' ? 'workspace' : state.page;
     const pageChanged = renderedPageKey != null && renderedPageKey !== pageKey;
+    if (pageChanged) window.NamiLifecycle.destroy(renderedPageKey);
     const page = window.FoundersPages[pageKey];
     if (!page) {
-      root.innerHTML = `<div class="empty">${T('app.sectionWip')}</div>`;
+      root.replaceChildren(namiEmpty(T('app.sectionWip')));
       renderedPageKey = pageKey;
       return;
     }
@@ -563,8 +503,7 @@
           root.dataset.skPage = pageKey;
         }
       } else if (!root.children.length) {
-        // Не мигаем «Загрузка…» при фоновых обновлениях — старый контент остаётся до новых данных
-        root.innerHTML = `<div class="empty">${T('app.loading')}</div>`;
+        root.replaceChildren(namiEmpty(T('app.loading')));
       }
       try {
         await page(root, state);
@@ -578,7 +517,7 @@
       } catch (err) {
         if (token !== renderToken) return;
         delete root.dataset.skPage;
-        root.innerHTML = `<div class="empty">${T('app.error', { message: String(err && err.message ? err.message : err) })}</div>`;
+        root.replaceChildren(namiEmpty(T('app.error', { message: String(err && err.message ? err.message : err) })));
       }
     };
 
@@ -593,7 +532,10 @@
     } else {
       await paint();
     }
-    if (token === renderToken) renderedPageKey = pageKey;
+    if (token === renderToken) {
+      renderedPageKey = pageKey;
+      window.NamiLifecycle.enter(pageKey);
+    }
   }
 
   function pageSkeletonHtml(pageKey) {
@@ -622,25 +564,20 @@
   }
 
   function openGame(gameId, tab = 'overview') {
-    state.selectedGameId = String(gameId);
-    localStorage.setItem('fa.selectedGameId', state.selectedGameId);
-    state.workspaceTab = WORKSPACE_TABS.has(tab) ? tab : 'overview';
-    localStorage.setItem('fa.workspaceTab', state.workspaceTab);
-    state.page = 'workspace';
-    localStorage.setItem('fa.page', 'workspace');
+    window.NamiStore.setSelectedGame(gameId);
+    window.NamiStore.setWorkspaceTab(tab);
+    window.NamiStore.setPage('workspace');
     render({ skeleton: true }).catch(() => {});
     loadData().catch(() => {});
   }
 
   function openTax() {
-    state.page = 'tax';
-    localStorage.setItem('fa.page', 'tax');
+    window.NamiStore.setPage('tax');
     render({ skeleton: true }).catch(() => {});
   }
 
   function setWorkspaceTab(tab) {
-    state.workspaceTab = WORKSPACE_TABS.has(tab) ? tab : 'overview';
-    localStorage.setItem('fa.workspaceTab', state.workspaceTab);
+    window.NamiStore.setWorkspaceTab(tab);
     render({ skeleton: true });
   }
 
@@ -653,9 +590,7 @@
   }
 
   function setPeriod(period) {
-    if (!period || period === state.period) return;
-    state.period = period;
-    localStorage.setItem('fa.period', period);
+    if (!window.NamiStore.setPeriod(period)) return;
 
     // Капсула периода едет сразу. Данные подтягиваем после кадра,
     // иначе перерисовка блокирует поток и анимация стартует только потом.
@@ -674,9 +609,7 @@
   }
 
   function setPeriodQuiet(period) {
-    if (!period || period === state.period) return;
-    state.period = period;
-    localStorage.setItem('fa.period', period);
+    if (!window.NamiStore.setPeriod(period)) return;
     updateChrome();
   }
 
@@ -684,8 +617,7 @@
     const btn = event.target.closest('button[data-page]');
     if (!btn) return;
     if (btn.dataset.page === state.page) return;
-    state.page = btn.dataset.page;
-    localStorage.setItem('fa.page', state.page);
+    window.NamiStore.setPage(btn.dataset.page);
     const heatCompare = state.heatCompare || 'prev_month';
     const cached =
       state.page === 'games' &&
@@ -705,13 +637,13 @@
         sponsorLink.getAttribute('data-external-url') ||
         sponsorLink.getAttribute('href') ||
         'https://kit.founders-universe.com/';
-      window.foundersApi.openUrl(url).catch(() => {
+      window.NamiServices.app.openUrl(url).catch(() => {
         window.open(url, '_blank', 'noopener,noreferrer');
       });
     });
   }
 
-  window.foundersApi.onIngestEvent(() => {
+  window.NamiServices.app.onIngest(() => {
     // Сбор идёт пачками: событий может быть несколько в секунду. Полный
     // refresh() на каждое событие перерисовывал страницу и «моргал»,
     // поэтому здесь только отметка активности и отложенное обновление данных.
@@ -738,7 +670,7 @@
       flushIngestRefresh({ final: true });
     }
   });
-  window.foundersApi.onCollectProgress((progress) => window.FoundersCollect.update(progress));
+  window.NamiServices.app.onCollect((progress) => window.FoundersCollect.update(progress));
 
   document.addEventListener('click', (e) => {
     if (state.statusOpen) {
@@ -815,53 +747,28 @@
     setPeriodQuiet,
     loading: setPageLoading,
     setAudienceTab(tab) {
-      state.audienceTab = tab;
-      localStorage.setItem('fa.audienceTab', tab);
+      window.NamiStore.setAudienceTab(tab);
     },
     setPublishedOnly(on) {
-      state.gamesPublishedOnly = !!on;
-      localStorage.setItem('fa.publishedOnly', state.gamesPublishedOnly ? '1' : '0');
+      window.NamiStore.setPublishedOnly(on);
     },
     setHeatMetric(metric) {
-      state.heatMetric = metric === 'earn' ? 'earn' : 'players';
-      localStorage.setItem('fa.heatMetric', state.heatMetric);
+      window.NamiStore.setHeatMetric(metric);
     },
     setGamesPlayersMode(mode) {
-      state.gamesPlayersMode = mode === 'sum' ? 'sum' : 'avg';
-      localStorage.setItem('fa.gamesPlayersMode', state.gamesPlayersMode);
+      window.NamiStore.setGamesPlayersMode(mode);
     },
     setGamesShareMetric(metric) {
-      state.gamesShareMetric = metric === 'earn' ? 'earn' : 'players';
-      localStorage.setItem('fa.gamesShareMetric', state.gamesShareMetric);
+      window.NamiStore.setGamesShareMetric(metric);
     },
     setGamesDynamicsMetric(metric) {
-      state.gamesDynamicsMetric = metric === 'earn' ? 'earn' : 'players';
-      localStorage.setItem('fa.gamesDynamicsMetric', state.gamesDynamicsMetric);
+      window.NamiStore.setGamesDynamicsMetric(metric);
     },
     setHeatCompare(mode) {
-      const allowed = new Set(['prev_period', 'prev_month', 'd7', 'd14', 'd30']);
-      state.heatCompare = allowed.has(mode) ? mode : 'prev_month';
-      localStorage.setItem('fa.heatCompare', state.heatCompare);
+      window.NamiStore.setHeatCompare(mode);
     },
     setWorkspaceLayer(layer) {
-      const allowed = new Set([
-        'summary',
-        'players',
-        'playtime',
-        'ready',
-        'rating',
-        'revenue',
-        'audience',
-        'conversion',
-        'metrics',
-        'purchases',
-        'earnings'
-      ]);
-      let id = allowed.has(String(layer)) ? String(layer) : 'summary';
-      if (id === 'earnings') id = 'revenue';
-      if (id === 'metrics') id = 'conversion';
-      state.workspaceLayer = id;
-      localStorage.setItem('fa.workspaceLayer', id);
+      window.NamiStore.setWorkspaceLayer(layer);
     }
   };
   // Скелетон сразу, данные — параллельно

@@ -68,7 +68,7 @@
     const importBtn = root.querySelector('#backupImport');
     const status = root.querySelector('#backupStatus');
     if (!exportBtn || !importBtn) return;
-    const api = window.foundersApi;
+    const svc = window.NamiServices.settings;
 
     const say = (text) => {
       status.hidden = !text;
@@ -104,14 +104,14 @@
       say('');
       const unlock = lock(importBtn, T('backup.checking'));
       try {
-        const picked = await api.pickBackup();
+        const picked = await svc.pickBackup();
         if (!picked || !picked.ok) return;
         if (!confirm(confirmText(picked.info))) {
-          await api.importBackup(false);
+          await svc.importBackup(false);
           return;
         }
         importBtn.textContent = T('backup.restoring');
-        const res = await api.importBackup(true);
+        const res = await svc.importBackup(true);
         applyPrefs(res.uiPrefs);
         sessionStorage.setItem('nami.skipSplash', '1');
         window.location.reload();

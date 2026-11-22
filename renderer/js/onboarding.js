@@ -179,8 +179,8 @@
   async function pollLive() {
     try {
       const [collector, stats] = await Promise.all([
-        window.foundersApi.getCollector(),
-        window.foundersApi.getDbStats()
+        window.NamiServices.app.collector(),
+        window.NamiServices.app.stats()
       ]);
       live = {
         linked: Number(collector && collector.lastExtensionConnection) > 0,
@@ -207,7 +207,7 @@
       const status = stage.querySelector('#onbPackStatus');
       status.textContent = T('onboarding.install.download.busy');
       try {
-        const res = await window.foundersApi.packExtension();
+        const res = await window.NamiServices.settings.packExtension();
         status.textContent =
           res && res.ok
             ? T('onboarding.install.download.done', { path: res.path })

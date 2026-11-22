@@ -21,4 +21,9 @@ AGENTS.md
 .skills/
 docs/*
 !docs/ARCHITECTURE.md
+!docs/ARCHITECTURE_DECISIONS.md
+!docs/PROJECT_STRUCTURE.md
+!docs/COMPONENTS.md
+!docs/DEVELOPMENT.md
+!docs/SECURITY_NOTES.md
 dist/

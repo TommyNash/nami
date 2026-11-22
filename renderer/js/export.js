@@ -409,9 +409,9 @@
 
   async function saveBlob(blob, filename) {
     const tauri = !!(window.__TAURI_INTERNALS__ || window.__TAURI__);
-    if (tauri && window.foundersApi && window.foundersApi.saveReport) {
+    if (tauri && window.NamiServices && window.NamiServices.settings.saveReport) {
       const data = await blobToBase64(blob);
-      await window.foundersApi.saveReport(filename, data);
+      await window.NamiServices.settings.saveReport(filename, data);
       return;
     }
     const url = URL.createObjectURL(blob);

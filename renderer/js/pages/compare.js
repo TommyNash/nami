@@ -8,7 +8,7 @@ async function renderComparePage(root, data) {
   const allGames =
     (model && model.games && model.games.length
       ? model.games
-      : await window.foundersApi.listGames(period, aid)) || [];
+      : await window.NamiServices.portfolio.list(period, aid)) || [];
   data.games = allGames;
 
   let selectedIds = (data.compareIds || []).map(String).filter(Boolean);
@@ -193,7 +193,7 @@ async function renderComparePage(root, data) {
       window.FoundersApp.loading(true);
     }
     try {
-      const result = await window.foundersApi.analyticsCompare(ids, period);
+      const result = await window.NamiServices.game.compare(ids, period);
       const games = result.games || [];
       // Сохраняем порядок выбора.
       const byId = new Map(games.map((g) => [String(g.id), g]));
@@ -298,19 +298,10 @@ async function renderComparePage(root, data) {
     closePicker();
   };
   const onPlace = () => placePicker();
-  document.addEventListener('click', onDoc, { once: false });
-  window.addEventListener('resize', onPlace);
-  document.addEventListener('scroll', onPlace, true);
-  // Снимаем слушатель при уходе со страницы — следующий рендер перезапишет root.
-  const obs = new MutationObserver(() => {
-    if (!document.body.contains(root.querySelector('.compare-page'))) {
-      document.removeEventListener('click', onDoc);
-      window.removeEventListener('resize', onPlace);
-      document.removeEventListener('scroll', onPlace, true);
-      obs.disconnect();
-    }
-  });
-  obs.observe(root, { childList: true, subtree: true });
+  window.NamiLifecycle.destroy('compare');
+  window.NamiLifecycle.listen('compare', document, 'click', onDoc);
+  window.NamiLifecycle.listen('compare', window, 'resize', onPlace);
+  window.NamiLifecycle.listen('compare', document, 'scroll', onPlace, true);
 
   bindRemoveButtons();
   bindPickerChecks();
